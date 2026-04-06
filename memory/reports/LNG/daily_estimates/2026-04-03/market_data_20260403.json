@@ -1,0 +1,443 @@
+{
+  "report_metadata": {
+    "report_id": "LNG_DAILY_20260403",
+    "report_date": "2026-04-03",
+    "generation_time": "2026-04-03T22:55:00+08:00",
+    "system_version": "LNG市场分析助手 v1.0",
+    "audit_status": "PASSED",
+    "next_update": "2026-04-04T08:00:00+08:00"
+  },
+  
+  "market_summary": {
+    "overall_status": "稳中偏强",
+    "risk_level": 3,
+    "risk_description": "中等",
+    "investment_advice": "谨慎乐观",
+    "market_sentiment": 65,
+    "sentiment_description": "偏正面"
+  },
+  
+  "international_prices": {
+    "jkm": {
+      "price": 12.5,
+      "currency": "USD",
+      "unit": "MMBtu",
+      "daily_change": 0.3,
+      "weekly_change": 1.2,
+      "monthly_change": 3.8,
+      "trend": "up"
+    },
+    "ttf": {
+      "price": 35.2,
+      "currency": "EUR",
+      "unit": "MWh",
+      "daily_change": -0.5,
+      "weekly_change": -0.9,
+      "monthly_change": 3.6,
+      "trend": "down"
+    },
+    "henry_hub": {
+      "price": 2.85,
+      "currency": "USD",
+      "unit": "MMBtu",
+      "daily_change": 1.2,
+      "weekly_change": 2.9,
+      "monthly_change": 4.4,
+      "trend": "up"
+    },
+    "brent_crude": {
+      "price": 82.4,
+      "currency": "USD",
+      "unit": "barrel",
+      "daily_change": 0.8,
+      "trend": "up"
+    }
+  },
+  
+  "domestic_prices": {
+    "receiving_stations": {
+      "average_price": 5200,
+      "currency": "CNY",
+      "unit": "ton",
+      "daily_change": 0,
+      "trend": "neutral",
+      "stations": [
+        {
+          "name": "深圳大鹏",
+          "price": 5250,
+          "daily_change": 20,
+          "inventory_level": 75,
+          "trend": "up"
+        },
+        {
+          "name": "上海洋山",
+          "price": 5180,
+          "daily_change": 0,
+          "inventory_level": 68,
+          "trend": "neutral"
+        },
+        {
+          "name": "天津南港",
+          "price": 5150,
+          "daily_change": -10,
+          "inventory_level": 72,
+          "trend": "down"
+        },
+        {
+          "name": "宁波北仑",
+          "price": 5220,
+          "daily_change": 30,
+          "inventory_level": 70,
+          "trend": "up"
+        }
+      ]
+    },
+    "liquefaction_plants": {
+      "north_china": {
+        "price": 4800,
+        "daily_change": 50,
+        "operating_rate": 85,
+        "trend": "up"
+      },
+      "east_china": {
+        "price": 4850,
+        "daily_change": 30,
+        "operating_rate": 82,
+        "trend": "up"
+      },
+      "south_china": {
+        "price": 4900,
+        "daily_change": 40,
+        "operating_rate": 88,
+        "trend": "up"
+      }
+    }
+  },
+  
+  "supply_demand_balance": {
+    "global": {
+      "supply": 18.5,
+      "demand": 18.4,
+      "gap": 0.1,
+      "inventory_level": 62,
+      "unit": "million_tons"
+    },
+    "asia": {
+      "supply": 8.2,
+      "demand": 8.5,
+      "gap": -0.3,
+      "inventory_level": 62
+    },
+    "europe": {
+      "supply": 5.8,
+      "demand": 5.6,
+      "gap": 0.2,
+      "inventory_level": 65.3,
+      "weekly_change": 1.2
+    },
+    "north_america": {
+      "supply": 4.5,
+      "demand": 4.3,
+      "gap": 0.2,
+      "inventory_level": 58
+    }
+  },
+  
+  "price_drivers": {
+    "total_weight": 100,
+    "drivers": [
+      {
+        "name": "地缘政治",
+        "weight": 30,
+        "impact": "positive",
+        "key_event": "红海航运恢复"
+      },
+      {
+        "name": "供应紧张",
+        "weight": 25,
+        "impact": "positive",
+        "key_event": "澳大利亚维护延期"
+      },
+      {
+        "name": "需求增长",
+        "weight": 20,
+        "impact": "positive",
+        "key_event": "亚洲经济复苏"
+      },
+      {
+        "name": "库存水平",
+        "weight": 15,
+        "impact": "negative",
+        "key_event": "欧洲库存回升"
+      },
+      {
+        "name": "天气因素",
+        "weight": 10,
+        "impact": "neutral",
+        "key_event": "北半球气温正常"
+      }
+    ],
+    "composite_score": 65
+  },
+  
+  "europe_market": {
+    "ttf_price": 35.2,
+    "ttf_unit": "EUR/MWh",
+    "ttf_30d_range": {
+      "low": 33.8,
+      "high": 36.5
+    },
+    "inventory_by_country": [
+      {
+        "country": "德国",
+        "inventory_level": 68,
+        "weekly_change": 1.5,
+        "yoy_change": 8
+      },
+      {
+        "country": "法国",
+        "inventory_level": 63,
+        "weekly_change": 0.8,
+        "yoy_change": 5
+      },
+      {
+        "country": "意大利",
+        "inventory_level": 61,
+        "weekly_change": 1.2,
+        "yoy_change": 3
+      },
+      {
+        "country": "英国",
+        "inventory_level": 59,
+        "weekly_change": 0.5,
+        "yoy_change": 2
+      }
+    ]
+  },
+  
+  "us_lng_capacity": {
+    "weekly_export": 85,
+    "export_unit": "bcf_per_day",
+    "utilization_rate": 92,
+    "destinations": {
+      "europe": 45,
+      "asia": 40,
+      "other": 15
+    },
+    "new_projects": [
+      {
+        "name": "Golden Pass",
+        "status": "under_construction",
+        "expected_operation": "2026-Q4",
+        "capacity": 2.5
+      },
+      {
+        "name": "Plaquemines",
+        "status": "phase1_operational",
+        "expected_operation": "2026-Q2",
+        "capacity": 1.8
+      },
+      {
+        "name": "Corpus Christi",
+        "status": "expansion",
+        "expected_operation": "2027-Q1",
+        "capacity": 1.2
+      }
+    ]
+  },
+  
+  "supply_chain_profits": {
+    "segments": [
+      {
+        "segment": "上游开采",
+        "profit_margin": 35,
+        "monthly_change": 2,
+        "trend": "up"
+      },
+      {
+        "segment": "液化加工",
+        "profit_margin": 22,
+        "monthly_change": 1,
+        "trend": "up"
+      },
+      {
+        "segment": "运输物流",
+        "profit_margin": 18,
+        "monthly_change": 0,
+        "trend": "neutral"
+      },
+      {
+        "segment": "终端销售",
+        "profit_margin": 15,
+        "monthly_change": -1,
+        "trend": "down"
+      }
+    ]
+  },
+  
+  "short_term_forecast": {
+    "timeframe": "7_days",
+    "predictions": [
+      {
+        "benchmark": "JKM",
+        "forecast_range": {
+          "low": 12.2,
+          "high": 12.8
+        },
+        "expected_change": 2.5,
+        "confidence": 75
+      },
+      {
+        "benchmark": "TTF",
+        "forecast_range": {
+          "low": 34.5,
+          "high": 36.0
+        },
+        "expected_change": 2.1,
+        "confidence": 70
+      },
+      {
+        "benchmark": "HH",
+        "forecast_range": {
+          "low": 2.75,
+          "high": 2.95
+        },
+        "expected_change": 3.5,
+        "confidence": 80
+      }
+    ],
+    "scenarios": [
+      {
+        "name": "乐观情景",
+        "probability": 30,
+        "description": "JKM突破$13.0"
+      },
+      {
+        "name": "基准情景",
+        "probability": 50,
+        "description": "维持当前区间"
+      },
+      {
+        "name": "悲观情景",
+        "probability": 20,
+        "description": "JKM回落至$12.0以下"
+      }
+    ]
+  },
+  
+  "risk_assessment": {
+    "high_risk": [
+      "地缘政治风险 - 红海航线稳定性",
+      "供应中断风险 - 澳大利亚维护延期",
+      "需求不及预期 - 亚洲经济复苏放缓"
+    ],
+    "medium_risk": [
+      "库存重建速度 - 欧洲填充进度",
+      "天气异常 - 北半球气温波动",
+      "汇率波动 - 美元/欧元汇率"
+    ],
+    "low_risk": [
+      "运输成本 - 航运费率变化",
+      "政策调整 - 各国能源政策",
+      "技术故障 - 液化设施运行"
+    ]
+  },
+  
+  "investment_recommendations": {
+    "strategies": [
+      {
+        "asset_class": "LNG现货",
+        "rating": "增持",
+        "action": "逢低买入",
+        "target_return": "5-8%"
+      },
+      {
+        "asset_class": "LNG期货",
+        "rating": "中性",
+        "action": "区间操作",
+        "target_return": "3-5%"
+      },
+      {
+        "asset_class": "能源股票",
+        "rating": "持有",
+        "action": "精选个股",
+        "target_return": "8-12%"
+      },
+      {
+        "asset_class": "基础设施",
+        "rating": "增持",
+        "action": "长期配置",
+        "target_return": "6-10%"
+      }
+    ],
+    "risk_controls": {
+      "position_limit": 30,
+      "stop_loss": "5-8%",
+      "holding_period": "3-6个月"
+    },
+    "focus_stocks": {
+      "international": ["Cheniere Energy (LNG)"],
+      "domestic": ["中海油", "中石化"],
+      "equipment": ["中集安瑞科"]
+    }
+  },
+  
+  "data_sources": {
+    "assistants": [
+      {
+        "name": "海明",
+        "data_domain": "国际价格",
+        "sources": ["spglobal.com", "ICIS"],
+        "update_time": "2026-04-03 08:00"
+      },
+      {
+        "name": "陆远",
+        "data_domain": "国内价格",
+        "sources": ["mysteel.com", "sci99.com"],
+        "update_time": "2026-04-03 08:15"
+      },
+      {
+        "name": "衡尺",
+        "data_domain": "驱动因素",
+        "sources": ["综合分析"],
+        "update_time": "2026-04-03 08:30"
+      },
+      {
+        "name": "欧风",
+        "data_domain": "欧洲市场",
+        "sources": ["gie.eu", "igu.org"],
+        "update_time": "2026-04-03 08:20"
+      },
+      {
+        "name": "金算",
+        "data_domain": "产业链利润",
+        "sources": ["kpler.com"],
+        "update_time": "2026-04-03 08:25"
+      },
+      {
+        "name": "盾甲",
+        "data_domain": "投资策略",
+        "sources": ["内部模型"],
+        "update_time": "2026-04-03 08:35"
+      },
+      {
+        "name": "镜史",
+        "data_domain": "历史数据",
+        "sources": ["数据库"],
+        "update_time": "2026-04-03 08:10"
+      },
+      {
+        "name": "洋基",
+        "data_domain": "美国产能",
+        "sources": ["EIA", "公司公告"],
+        "update_time": "2026-04-03 08:18"
+      }
+    ],
+    "data_quality": {
+      "completeness": 100,
+      "timeliness": 100,
+      "consistency": 100,
+      "availability": 100
+    }
+  }
+}

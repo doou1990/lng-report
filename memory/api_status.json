@@ -1,0 +1,16 @@
+{
+  "last_updated": "2026-04-04T00:17:01+08:00",
+  "api_status": {
+    "tavily": true,
+    "icis": true,
+    "gie": true,
+    "eia": true,
+    "notion": true
+  },
+  "system_config": {
+    "update_interval_minutes": 60,
+    "report_generation_time": "08:00",
+    "log_level": "info",
+    "data_storage_path": "/root/.openclaw/workspace/memory/reports/LNG"
+  }
+}

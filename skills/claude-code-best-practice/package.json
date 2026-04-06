@@ -1,0 +1,15 @@
+{
+  "name": "claude-code-best-practice",
+  "version": "1.0.0",
+  "description": "Claude Code最佳实践Skill，封装Agentic Loop、Subagent协作、Explore-Plan-Code工作流",
+  "main": "SKILL.md",
+  "keywords": [
+    "claude-code",
+    "best-practice",
+    "agentic-loop",
+    "subagent",
+    "workflow"
+  ],
+  "author": "OpenClaw",
+  "license": "MIT"
+}

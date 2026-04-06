@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG原油市场分析报告 - 2026年4月6日</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .chart-container { height: 400px; }
+        .zhejiang-card { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">LNG原油市场分析报告</h1>
+                    <p class="text-blue-100 mt-2">2026年4月6日 | v4.4 浙江专区增强版</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-blue-100">数据完整度</div>
+                    <div class="text-4xl font-bold">92%</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- 浙江专区 -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">🏭 浙江周边LNG接收站价格专区</h2>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6 bg-gradient-to-r from-pink-50 to-purple-50">
+                    <h3 class="text-lg font-semibold mb-4">浙江省核心接收站</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-lg p-4 border-2 border-pink-300">
+                            <div class="text-sm text-gray-500">中海油宁波</div>
+                            <div class="text-3xl font-bold text-pink-600">6,210元/吨</div>
+                            <div class="text-xs text-gray-400">浙江省宁波市</div>
+                            <div class="mt-2 text-xs text-green-600">较全国均价 +386元/吨</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 border-2 border-purple-300">
+                            <div class="text-sm text-gray-500">舟山新奥</div>
+                            <div class="text-3xl font-bold text-purple-600">6,150元/吨</div>
+                            <div class="text-xs text-gray-400">浙江省舟山市</div>
+                            <div class="mt-2 text-xs text-green-600">较全国均价 +326元/吨</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 border-2 border-indigo-300">
+                            <div class="text-sm text-gray-500">上海五号沟</div>
+                            <div class="text-3xl font-bold text-indigo-600">5,800元/吨</div>
+                            <div class="text-xs text-gray-400">上海市浦东新区</div>
+                            <div class="mt-2 text-xs text-red-600">较全国均价 -24元/吨</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4">周边省份接收站</h3>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left">接收站名称</th>
+                                <th class="px-4 py-2 text-left">省份</th>
+                                <th class="px-4 py-2 text-right">价格(元/吨)</th>
+                                <th class="px-4 py-2 text-right">较全国均价</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="px-4 py-2">江苏中石油如东</td>
+                                <td class="px-4 py-2">江苏省</td>
+                                <td class="px-4 py-2 text-right font-semibold">5,400</td>
+                                <td class="px-4 py-2 text-right text-red-600">-424</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-2">江苏广汇启东</td>
+                                <td class="px-4 py-2">江苏省</td>
+                                <td class="px-4 py-2 text-right font-semibold">5,360</td>
+                                <td class="px-4 py-2 text-right text-red-600">-464</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-2">福建莆田</td>
+                                <td class="px-4 py-2">福建省</td>
+                                <td class="px-4 py-2 text-right font-semibold">5,650</td>
+                                <td class="px-4 py-2 text-right text-red-600">-174</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">福建漳州</td>
+                                <td class="px-4 py-2">福建省</td>
+                                <td class="px-4 py-2 text-right font-semibold">5,600</td>
+                                <td class="px-4 py-2 text-right text-red-600">-224</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 价格走势图表 -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">📈 价格走势</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4">原油价格走势</h3>
+                    <div id="crudeChart" class="chart-container"></div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4">国际LNG价格对比</h3>
+                    <div id="lngChart" class="chart-container"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 原油价格图表
+        const crudeChart = echarts.init(document.getElementById('crudeChart'));
+        crudeChart.setOption({
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['Brent', 'WTI'], bottom: 0 },
+            xAxis: { type: 'category', data: ['3/8', '3/15', '3/22', '3/29', '4/5', '4/6'] },
+            yAxis: { type: 'value', name: '美元/桶' },
+            series: [
+                { name: 'Brent', type: 'line', data: [105.2, 107.5, 109.8, 108.4, 108.4, 108.4], smooth: true },
+                { name: 'WTI', type: 'line', data: [102.5, 104.2, 107.8, 110.3, 111.5, 110.3], smooth: true }
+            ]
+        });
+
+        // LNG价格图表
+        const lngChart = echarts.init(document.getElementById('lngChart'));
+        lngChart.setOption({
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['JKM', 'TTF', 'Henry Hub'], bottom: 0 },
+            xAxis: { type: 'category', data: ['3/8', '3/15', '3/22', '3/29', '4/5', '4/6'] },
+            yAxis: { type: 'value', name: '美元/MMBtu' },
+            series: [
+                { name: 'JKM', type: 'line', data: [16.5, 17.2, 18.5, 19.2, 18.75, 18.75], smooth: true },
+                { name: 'TTF', type: 'line', data: [48.5, 50.2, 52.8, 54.24, 54.24, 54.24], smooth: true },
+                { name: 'Henry Hub', type: 'line', data: [2.85, 2.92, 3.05, 3.05, 3.05, 3.05], smooth: true }
+            ]
+        });
+
+        window.addEventListener('resize', () => {
+            crudeChart.resize();
+            lngChart.resize();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{
+  "data_sources": {
+    "international_prices": {
+      "primary": {
+        "name": "ICIS",
+        "url": "https://www.icis.com/explore/commodities/energy/",
+        "access": "restricted",
+        "priority": 1
+      },
+      "secondary": {
+        "name": "Trading Economics - LNG",
+        "url": "https://tradingeconomics.com/commodity/lng",
+        "access": "public",
+        "priority": 2
+      },
+      "tertiary": {
+        "name": "Investing.com - Natural Gas",
+        "url": "https://www.investing.com/commodities/natural-gas",
+        "access": "public",
+        "priority": 3
+      }
+    },
+    
+    "europe_inventory": {
+      "primary": {
+        "name": "GIE (Gas Infrastructure Europe)",
+        "url": "https://agsi.gie.eu/",
+        "access": "public",
+        "priority": 1
+      },
+      "secondary": {
+        "name": "European Commission Energy",
+        "url": "https://energy.ec.europa.eu/topics/energy-security/eu-gas-storage_en",
+        "access": "public",
+        "priority": 2
+      }
+    },
+    
+    "us_data": {
+      "primary": {
+        "name": "EIA (Energy Information Administration)",
+        "url": "https://www.eia.gov/naturalgas/",
+        "access": "public",
+        "priority": 1
+      },
+      "secondary": {
+        "name": "FERC (Federal Energy Regulatory Commission)",
+        "url": "https://www.ferc.gov/industries-data/natural-gas",
+        "access": "public",
+        "priority": 2
+      }
+    },
+    
+    "china_data": {
+      "primary": {
+        "name": "中国海关总署",
+        "url": "http://www.customs.gov.cn/",
+        "access": "public",
+        "priority": 1
+      },
+      "secondary": {
+        "name": "国家统计局",
+        "url": "http://www.stats.gov.cn/",
+        "access": "public",
+        "priority": 2
+      },
+      "industry": {
+        "name": "隆众资讯",
+        "url": "https://www.oilchem.net/",
+        "access": "partial",
+        "priority": 3
+      }
+    },
+    
+    "market_news": {
+      "primary": {
+        "name": "Reuters Energy",
+        "url": "https://www.reuters.com/business/energy/",
+        "access": "public",
+        "priority": 1
+      },
+      "secondary": {
+        "name": "Bloomberg Energy",
+        "url": "https://www.bloomberg.com/energy",
+        "access": "partial",
+        "priority": 2
+      },
+      "industry": {
+        "name": "LNG World News",
+        "url": "https://www.lngworldnews.com/",
+        "access": "public",
+        "priority": 3
+      }
+    }
+  },
+  
+  "data_quality_rules": {
+    "timeliness": {
+      "real_time": "优先使用实时数据",
+      "daily": "日度数据可接受",
+      "weekly": "周度数据需标注",
+      "monthly": "月度数据仅作参考"
+    },
+    "verification": {
+      "cross_check": "必须交叉验证",
+      "source_attribution": "必须标注来源",
+      "timestamp": "必须标注时间",
+      "confidence_level": "必须标注置信度"
+    },
+    "prohibited": {
+      "estimates": "禁止使用估算数据",
+      "outdated": "禁止使用超过24小时数据",
+      "unverified": "禁止使用未验证数据",
+      "social_media": "禁止使用社交媒体数据"
+    }
+  },
+  
+  "last_updated": "2026-04-03T23:10:00+08:00",
+  "version": "1.0"
+}

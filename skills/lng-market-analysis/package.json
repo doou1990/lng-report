@@ -1,0 +1,28 @@
+{
+  "name": "lng-market-analysis",
+  "version": "1.0.0",
+  "description": "LNG & 原油市场分析助手 - 8位专业助理分工协作",
+  "author": "欢乐豆",
+  "homepage": "https://github.com/qclaw/lng-market-analysis",
+  "keywords": ["lng", "天然气", "能源", "市场分析", "原油"],
+  "license": "MIT",
+  "platform": "openclaw",
+  "minOpenClawVersion": "1.0.0",
+  "dependencies": {},
+  "triggers": [
+    "LNG分析",
+    "天然气市场",
+    "能源报告",
+    "生成LNG报告",
+    "原油价格",
+    "LNG价格",
+    "生成LNG日报",
+    "分析LNG市场"
+  ],
+  "commands": {
+    "generate_report": "生成LNG日报",
+    "check_price": "LNG价格",
+    "check_oil": "原油价格",
+    "generate_web": "生成LNG网页报告"
+  }
+}

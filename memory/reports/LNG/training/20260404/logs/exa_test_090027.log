@@ -1,0 +1,50 @@
+=== exa-web-search-free测试 ===
+测试时间: 2026-04-04 09:00:27
+
+1. 测试基本搜索功能:
+[mcporter] Unknown MCP server 'exa'.
+Error: Unknown MCP server 'exa'.
+    at McpRuntime.connect (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:175:19)
+    at McpRuntime.callTool (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:124:43)
+    at attemptCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:252:50)
+    at invokeWithAutoCorrection (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:248:12)
+    at invokePreparedCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:100:28)
+    at handleCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:21:30)
+    at async runCli (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:136:13)
+    at async main (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:194:5)
+
+2. 测试深度搜索功能:
+[mcporter] Unknown MCP server 'exa'.
+Error: Unknown MCP server 'exa'.
+    at McpRuntime.connect (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:175:19)
+    at McpRuntime.callTool (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:124:43)
+    at attemptCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:252:50)
+    at invokeWithAutoCorrection (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:248:12)
+    at invokePreparedCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:100:28)
+    at handleCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:21:30)
+    at async runCli (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:136:13)
+    at async main (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:194:5)
+
+3. 测试公司研究功能:
+[mcporter] Unknown MCP server 'exa'.
+Error: Unknown MCP server 'exa'.
+    at McpRuntime.connect (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:175:19)
+    at McpRuntime.callTool (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:124:43)
+    at attemptCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:252:50)
+    at invokeWithAutoCorrection (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:248:12)
+    at invokePreparedCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:100:28)
+    at handleCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:21:30)
+    at async runCli (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:136:13)
+    at async main (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:194:5)
+
+4. 测试网页抓取功能:
+[mcporter] Unknown MCP server 'exa'.
+Error: Unknown MCP server 'exa'.
+    at McpRuntime.connect (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:175:19)
+    at McpRuntime.callTool (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/runtime.js:124:43)
+    at attemptCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:252:50)
+    at invokeWithAutoCorrection (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:248:12)
+    at invokePreparedCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:100:28)
+    at handleCall (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli/call-command.js:21:30)
+    at async runCli (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:136:13)
+    at async main (file:///root/.nvm/versions/node/v22.22.2/lib/node_modules/mcporter/dist/cli.js:194:5)

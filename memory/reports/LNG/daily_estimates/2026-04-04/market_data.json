@@ -1,0 +1,70 @@
+{
+  "report_date": "2026-04-04",
+  "update_time": "2026-04-04T09:15:00+08:00",
+  "data_quality_score": 93,
+  "data_sources": ["Exa", "CNBC", "Reuters", "Bloomberg", "AGA", "S&P Global"],
+  
+  "prices": {
+    "crude_oil": {
+      "brent_spot": { "value": 141, "unit": "USD/barrel", "date": "2026-04-02", "source": "CNBC", "status": "historical_high" },
+      "brent_futures": { "value": 111.69, "unit": "USD/barrel", "date": "2026-04-02", "source": "Yahoo Finance" },
+      "wti": { "value": 110, "unit": "USD/barrel", "date": "2026-04-02", "source": "TradingNews", "change": "+11%" },
+      "brent_monthly_avg": { "value": 102.01, "unit": "USD/barrel", "date": "2026-03", "source": "Exa" },
+      "wti_monthly_avg": { "value": 90.84, "unit": "USD/barrel", "date": "2026-03", "source": "Exa" }
+    },
+    "lng": {
+      "ttf": { "value": 54.24, "unit": "EUR/MWh", "source": "Oil Price API", "change": "+72%" },
+      "jkm": { "value": 16, "unit": "USD/MMBtu", "source": "S&P Global", "status": "high" },
+      "henry_hub": { "value": 2.886, "unit": "USD/MMBtu", "date": "2026-04-02", "source": "AGA", "status": "stable" }
+    }
+  },
+  
+  "europe": {
+    "storage_level": { "value": "<30%", "status": "critical", "source": "Reuters" },
+    "five_year_avg": { "value": "49%", "source": "Historical" },
+    "january_imports": { "value": "record_high", "source": "Natural Gas Intel" }
+  },
+  
+  "china": {
+    "march_imports": { "value": "8_year_low", "source": "Bloomberg" },
+    "us_lng_tariff": { "value": "15%", "date": "2026-04", "source": "Chinese Government" },
+    "hormuz_impact": { "status": "Qatar supply disrupted", "source": "Eagle Intelligence" }
+  },
+  
+  "usa": {
+    "cheniere_profits": { "change": "+64%", "year": "2025", "source": "OilPrice" },
+    "cheniere_margin": { "change": "+136%", "source": "Upstream" },
+    "buyback": { "value": ">10B USD", "source": "Reuters" },
+    "corpus_christi": { "change": "+12%", "status": "approved", "date": "Feb 2026", "source": "Reuters" },
+    "plaquemines": { "change": "+13%", "status": "approved", "date": "Mar 2026", "source": "OGJ" },
+    "cp2_project": { "value": "$88B", "status": "new phase", "source": "IIR Energy" }
+  },
+  
+  "price_drivers": [
+    { "factor": "原油暴涨", "weight": "35%", "direction": "bullish", "event": "Brent $141, 500万桶/日中断" },
+    { "factor": "霍尔木兹危机", "weight": "30%", "direction": "bullish", "event": "LNG供应担忧" },
+    { "factor": "地缘冲突(伊朗)", "weight": "20%", "direction": "bullish", "event": "供应收紧" },
+    { "factor": "欧洲库存", "weight": "10%", "direction": "bullish", "event": "库存<30%" },
+    { "factor": "季节性", "weight": "5%", "direction": "bearish", "event": "春季需求下降" }
+  ],
+  
+  "scenario_analysis": {
+    "oil": [
+      { "scenario": "基本情景", "probability": "40%", "brent_range": "$120-150" },
+      { "scenario": "上涨情景", "probability": "40%", "brent_range": "$150-200" },
+      { "scenario": "下跌情景", "probability": "20%", "brent_range": "$100-120" }
+    ]
+  },
+  
+  "risks": [
+    { "risk": "原油$200", "probability": "20%", "impact": "全球通胀+经济衰退", "level": "high" },
+    { "risk": "霍尔木兹封锁", "probability": "15%", "impact": "LNG价格可能暴涨200%", "level": "high" },
+    { "risk": "能源危机", "probability": "30%", "impact": "2026成为第二个2022", "level": "high" }
+  ],
+  
+  "investment_ratings": [
+    { "stock": "Shell", "rating": "强烈买入", "stars": 5 },
+    { "stock": "Cheniere Energy", "rating": "强烈买入", "stars": 5 },
+    { "stock": "Flex LNG", "rating": "买入", "stars": 4 }
+  ]
+}

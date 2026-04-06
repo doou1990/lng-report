@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG原油市场分析报告 - 2026年4月4日</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .header .date {
+            margin-top: 15px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .alert-box {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(255,75,43,0.3);
+        }
+        .alert-box h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-box .alert-item {
+            background: rgba(255,255,255,0.15);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 8px 0;
+            border-left: 4px solid white;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2a5298;
+            margin: 10px 0;
+        }
+        .card .change {
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        .change.up {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .change.down {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        tr:hover {
+            background: #f5f7fa;
+        }
+        .highlight {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ff9800;
+            margin: 20px 0;
+        }
+        .chart-placeholder {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            color: #1976d2;
+            font-size: 1.1em;
+            margin: 20px 0;
+        }
+        .footer {
+            background: #1e3c72;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .footer p {
+            opacity: 0.8;
+            margin: 5px 0;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin: 2px;
+        }
+        .tag.high {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .tag.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        .tag.low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .content {
+                padding: 20px;
+            }
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 LNG原油市场分析报告</h1>
+            <div class="subtitle">全球能源市场深度分析 | 易经八卦管理模型</div>
+            <div class="date">📅 2026年4月4日</div>
+        </div>
+
+        <div class="content">
+            <!-- 紧急警报 -->
+            <div class="alert-box">
+                <h2>🚨 紧急警报</h2>
+                <div class="alert-item">
+                    <strong>中东冲突升级</strong>：美以对伊朗军事行动，霍尔木兹海峡封锁风险
+                </div>
+                <div class="alert-item">
+                    <strong>卡塔尔产能受损</strong>：17%全球LNG产能受损，修复需3-5年
+                </div>
+                <div class="alert-item">
+                    <strong>原油价格暴涨</strong>：Brent +6.7%，WTI +11.1%，创近四年新高
+                </div>
+                <div class="alert-item">
+                    <strong>Henry Hub飙升</strong>：单日暴涨+59.6%至$4.98/MMBtu
+                </div>
+            </div>
+
+            <!-- 核心数据卡片 -->
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>🛢️ Brent原油</h3>
+                    <div class="value">$127.61</div>
+                    <span class="change up">+6.7%</span>
+                    <p>美元/桶</p>
+                </div>
+                <div class="card">
+                    <h3>⛽ WTI原油</h3>
+                    <div class="value">$113.23</div>
+                    <span class="change up">+11.1%</span>
+                    <p>美元/桶</p>
+                </div>
+                <div class="card">
+                    <h3>🔥 Henry Hub</h3>
+                    <div class="value">$4.98</div>
+                    <span class="change up">+59.6%</span>
+                    <p>美元/MMBtu</p>
+                </div>
+                <div class="card">
+                    <h3>🇨🇳 国内工厂均价</h3>
+                    <div class="value">4769</div>
+                    <span class="change up">+47.98%</span>
+                    <p>元/吨（环比上月）</p>
+                </div>
+                <div class="card">
+                    <h3>🏭 国内接收站均价</h3>
+                    <div class="value">5900</div>
+                    <span class="change up">-</span>
+                    <p>元/吨</p>
+                </div>
+                <div class="card">
+                    <h3>📊 国内开工率</h3>
+                    <div class="value">48%</div>
+                    <span class="change down">-</span>
+                    <p>133家工厂，69家检修</p>
+                </div>
+            </div>
+
+            <!-- 原油价格 -->
+            <div class="section">
+                <h2>🛢️ 原油市场数据</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>品种</th>
+                            <th>价格</th>
+                            <th>日涨跌</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Brent原油</strong></td>
+                            <td><strong>$127.61/桶</strong></td>
+                            <td><span class="tag high">+6.7%</span></td>
+                            <td>EIA Today in Energy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WTI原油</strong></td>
+                            <td><strong>$113.23/桶</strong></td>
+                            <td><span class="tag high">+11.1%</span></td>
+                            <td>EIA Today in Energy</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight">
+                    <strong>💡 关键洞察</strong>：特朗普对伊朗军事行动导致中东局势急剧恶化，霍尔木兹海峡封锁担忧推升风险溢价，WTI甚至高于Brent反映美国本土供应担忧。
+                </div>
+            </div>
+
+            <!-- 国际LNG价格 -->
+            <div class="section">
+                <h2>🌍 国际LNG价格</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>市场</th>
+                            <th>价格</th>
+                            <th>日涨跌</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Henry Hub现货</strong></td>
+                            <td><strong>$4.98/MMBtu</strong></td>
+                            <td><span class="tag high">+59.6%</span></td>
+                            <td>美国本土暴涨</td>
+                        </tr>
+                        <tr>
+                            <td>Henry Hub期货</td>
+                            <td>$4.875/MMBtu</td>
+                            <td><span class="tag medium">+56.2%</span></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>欧洲TTF</td>
+                            <td>~€55/MWh</td>
+                            <td><span class="tag high">+72%</span></td>
+                            <td>3月初至今涨幅</td>
+                        </tr>
+                        <tr>
+                            <td>亚洲JKM</td>
+                            <td>~$10.73/MMBtu</td>
+                            <td>-</td>
+                            <td>数据需更新</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 国内LNG价格 -->
+            <div class="section">
+                <h2>🇨🇳 国内LNG市场价格</h2>
+                <div class="highlight">
+                    <strong>⭐ 必采数据</strong>：润仓助理专职采集，覆盖工厂价+接收站价+开工率
+                </div>
+                
+                <h3>市场均价（2026年4月1-2日）</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>数值</th>
+                            <th>环比变化</th>
+                            <th>数据来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LNG工厂市场均价</strong></td>
+                            <td><strong>4769元/吨</strong></td>
+                            <td><span class="tag high">+47.98%</span></td>
+                            <td>LNG物联网</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LNG接收站均价</strong></td>
+                            <td><strong>5900元/吨</strong></td>
+                            <td>-</td>
+                            <td>LNG物联网</td>
+                        </tr>
+                        <tr>
+                            <td><strong>开工率</strong></td>
+                            <td><strong>48%</strong></td>
+                            <td>-</td>
+                            <td>133家工厂，69家检修</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>主要LNG接收站挂牌价</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>接收站</th>
+                            <th>价格（元/吨）</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>深圳大鹏</strong></td>
+                            <td><strong>6300</strong></td>
+                            <td><span class="tag high">最高价</span></td>
+                        </tr>
+                        <tr>
+                            <td>福建国网</td>
+                            <td>5650</td>
+                            <td>自提价格</td>
+                        </tr>
+                        <tr>
+                            <td>广西北海</td>
+                            <td>5150</td>
+                            <td>挂牌价</td>
+                        </tr>
+                        <tr>
+                            <td><strong>河北曹妃甸</strong></td>
+                            <td><strong>5350</strong></td>
+                            <td><span class="tag low">最低价</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 欧洲市场 -->
+            <div class="section">
+                <h2>🇪🇺 欧洲天然气/库存状况</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>数值</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>欧盟储气率</strong></td>
+                            <td><strong>&lt;33%</strong></td>
+                            <td><span class="tag high">🔴 历史第四低</span></td>
+                        </tr>
+                        <tr>
+                            <td>2026年3月LNG进口</td>
+                            <td><strong>137亿立方米</strong></td>
+                            <td><span class="tag high">创历史纪录</span></td>
+                        </tr>
+                        <tr>
+                            <td>供暖季LNG进口</td>
+                            <td>约668亿立方米</td>
+                            <td>超越2022-2023年纪录</td>
+                        </tr>
+                        <tr>
+                            <td>俄LNG对欧出口(Q1)</td>
+                            <td>约68亿立方米</td>
+                            <td><span class="tag medium">逆势+19%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 驱动因素 -->
+            <div class="section">
+                <h2>📊 价格驱动因素分析</h2>
+                <h3>驱动因素权重分布</h3>
+                <div style="margin: 20px 0;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>地缘政治风险</span>
+                        <span><strong>35%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 35%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; margin-top: 10px;">
+                        <span>供应端中断</span>
+                        <span><strong>30%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; margin-top: 10px;">
+                        <span>需求端变化</span>
+                        <span><strong>20%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%;"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; margin-top: 10px;">
+                        <span>库存/储备水平</span>
+                        <span><strong>10%</strong></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 10%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产业链利润 -->
+            <div class="section">
+                <h2>💰 产业链利润分析</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>数值</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>美国LNG出口利润率</td>
+                            <td><strong>$4.56/MMBtu</strong></td>
+                            <td>平均利润</td>
+                        </tr>
+                        <tr>
+                            <td>单船利润</td>
+                            <td><strong>约$1,750万美元</strong></td>
+                            <td>每艘LNG船</td>
+                        </tr>
+                        <tr>
+                            <td>向欧洲销售价格</td>
+                            <td><strong>成本的2倍</strong></td>
+                            <td>西方能源巨头</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 投资策略 -->
+            <div class="section">
+                <h2>📈 投资策略建议</h2>
+                <div class="highlight">
+                    <strong>整体评级：Moderate Buy（适度买入）</strong>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>机构</th>
+                            <th>标的</th>
+                            <th>评级</th>
+                            <th>目标价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Morgan Stanley</td>
+                            <td>Cheniere Energy</td>
+                            <td><span class="tag low">Overweight</span></td>
+                            <td>$313</td>
+                        </tr>
+                        <tr>
+                            <td>JPMorgan</td>
+                            <td>Cheniere Energy</td>
+                            <td>-</td>
+                            <td>$338</td>
+                        </tr>
+                        <tr>
+                            <td>Goldman Sachs</td>
+                            <td>Cheniere Energy</td>
+                            <td>-</td>
+                            <td>$312</td>
+                        </tr>
+                        <tr>
+                            <td>Citi</td>
+                            <td>Cheniere Energy</td>
+                            <td>-</td>
+                            <td>$330</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 美国产能 -->
+            <div class="section">
+                <h2>🇺🇸 美国LNG产能追踪</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>年份</th>
+                            <th>出口量</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>2025年</strong></td>
+                            <td><strong>15.0 Bcf/d</strong></td>
+                            <td>创纪录新高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2027年（预测）</strong></td>
+                            <td><strong>18.1 Bcf/d</strong></td>
+                            <td>+21%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight">
+                    <strong>🎉 最新动态</strong>：Golden Pass LNG于2026年3月30日首次生产LNG，预计Q2开始出口，新增产能2.1 Bcf/d
+                </div>
+            </div>
+
+            <!-- 风险预警 -->
+            <div class="section">
+                <h2>⚠️ 风险预警</h2>
+                <div class="alert-box" style="background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);">
+                    <h2>🔴 高优先级风险</h2>
+                    <div class="alert-item">霍尔木兹海峡封锁：全球20% LNG贸易中断</div>
+                    <div class="alert-item">卡塔尔产能长期受损：17%产能3-5年修复期</div>
+                    <div class="alert-item">欧洲能源危机：储气率&lt;33%，冬季供应风险</div>
+                </div>
+            </div>
+
+            <!-- 数据来源 -->
+            <div class="section">
+                <h2>📚 数据来源</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>优先级</th>
+                            <th>来源</th>
+                            <th>类型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>★★★★★</td>
+                            <td>EIA (美国能源信息署)</td>
+                            <td>官方数据</td>
+                        </tr>
+                        <tr>
+                            <td>★★★★★</td>
+                            <td>隆众资讯</td>
+                            <td>国内市场</td>
+                        </tr>
+                        <tr>
+                            <td>★★★★★</td>
+                            <td>LNG物联网</td>
+                            <td>国内价格</td>
+                        </tr>
+                        <tr>
+                            <td>★★★★☆</td>
+                            <td>Reuters / Bloomberg</td>
+                            <td>新闻/分析</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 报告说明 -->
+            <div class="section">
+                <h2>📝 报告说明</h2>
+                <div class="highlight">
+                    <strong>数据质量声明</strong>：<br>
+                    • 审核评分：91.7/100（优良）<br>
+                    • 数据完整度：90/100（中国贸易数据待补充）<br>
+                    • 缺失数据：中国LNG进口量最新数据（采集超时）
+                </div>
+                <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                    <strong>免责声明</strong>：本报告基于公开信息和AI搜索数据生成，仅供参考，不构成投资建议。市场有风险，投资需谨慎。
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📊 LNG原油市场分析报告 | 易经八卦管理模型</p>
+            <p>10位专业助理数据采集 + 中孚审核机制</p>
+            <p>报告生成时间：2026年4月4日 16:15 | 版本：v1.0</p>
+        </div>
+    </div>
+</body>
+</html>

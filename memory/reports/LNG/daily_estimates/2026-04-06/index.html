@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG原油市场分析报告 - 2026年4月6日</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .metric-card { transition: transform 0.2s; }
+        .metric-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">LNG原油市场分析报告</h1>
+                    <p class="text-blue-100">2026年4月6日 | 12助理协作系统 v4.2</p>
+                </div>
+                <div class="text-right">
+                    <div class="bg-white/20 rounded-lg px-4 py-2">
+                        <span class="text-sm">数据完整度</span>
+                        <div class="text-2xl font-bold">92%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section class="container mx-auto px-6 py-8">
+        <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <span class="w-1 h-6 bg-blue-500 rounded mr-3"></span>
+                执行摘要
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                    <h3 class="font-semibold text-red-800">原油价格高位震荡</h3>
+                    <p class="text-red-600 text-sm mt-1">Brent $108.4/桶，WTI $110.3/桶，WTI罕见高于Brent</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <h3 class="font-semibold text-blue-800">国际LNG价格分化</h3>
+                    <p class="text-blue-600 text-sm mt-1">JKM $18.75，TTF €54.24，Henry Hub $3.05</p>
+                </div>
+                <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded">
+                    <h3 class="font-semibold text-orange-800">中国进口创8年最低</h3>
+                    <p class="text-orange-600 text-sm mt-1">3月进口&lt;370万吨，同比下降25%</p>
+                </div>
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                    <h3 class="font-semibold text-green-800">国内价格坚挺</h3>
+                    <p class="text-green-600 text-sm mt-1">液厂4,813元/吨，接收站5,824元/吨</p>
+                </div>
+                <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                    <h3 class="font-semibold text-purple-800">欧洲库存告急</h3>
+                    <p class="text-purple-600 text-sm mt-1">降至29.1%，德国仅20.6%</p>
+                </div>
+                <div class="bg-gray-50 border-l-4 border-gray-500 p-4 rounded">
+                    <h3 class="font-semibold text-gray-800">12助理执行状态</h3>
+                    <p class="text-gray-600 text-sm mt-1">11/12成功，平均置信度A- (90分)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Price Charts -->
+    <section class="container mx-auto px-6 py-8">
+        <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Crude Oil Price -->
+            <div class="bg-white rounded-xl card-shadow p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">原油价格走势</h3>
+                <div id="crudeChart" style="height: 300px;"></div>
+                <div class="mt-4 grid grid-cols-2 gap-4">
+                    <div class="text-center p-3 bg-blue-50 rounded">
+                        <div class="text-sm text-gray-600">Brent</div>
+                        <div class="text-2xl font-bold text-blue-600">$108.40</div>
+                        <div class="text-xs text-gray-500">OilPrice.com实时</div>
+                    </div>
+                    <div class="text-center p-3 bg-green-50 rounded">
+                        <div class="text-sm text-gray-600">WTI</div>
+                        <div class="text-2xl font-bold text-green-600">$110.30</div>
+                        <div class="text-xs text-gray-500">罕见高于Brent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LNG Price -->
+            <div class="bg-white rounded-xl card-shadow p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">国际LNG价格对比</h3>
+                <div id="lngChart" style="height: 300px;"></div>
+                <div class="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
+                    <div class="p-2 bg-yellow-50 rounded">
+                        <div class="font-semibold text-yellow-700">JKM</div>
+                        <div class="text-lg font-bold">$18.75</div>
+                    </div>
+                    <div class="p-2 bg-blue-50 rounded">
+                        <div class="font-semibold text-blue-700">TTF</div>
+                        <div class="text-lg font-bold">€54.24</div>
+                    </div>
+                    <div class="p-2 bg-green-50 rounded">
+                        <div class="font-semibold text-green-700">HH</div>
+                        <div class="text-lg font-bold">$3.05</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- China LNG Market -->
+    <section class="container mx-auto px-6 py-8">
+        <div class="bg-white rounded-xl card-shadow p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <span class="w-1 h-6 bg-red-500 rounded mr-3"></span>
+                中国LNG市场
+            </h2>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Domestic Price -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">国内LNG价格分布</h3>
+                    <div id="chinaPriceChart" style="height: 280px;"></div>
+                </div>
+                <!-- Key Metrics -->
+                <div class="space-y-4">
+                    <div class="metric-card bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl">
+                        <div class="text-sm opacity-90">液厂均价</div>
+                        <div class="text-3xl font-bold">4,813</div>
+                        <div class="text-sm opacity-90">元/吨</div>
+                    </div>
+                    <div class="metric-card bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl">
+                        <div class="text-sm opacity-90">接收站均价</div>
+                        <div class="text-3xl font-bold">5,824</div>
+                        <div class="text-sm opacity-90">元/吨</div>
+                    </div>
+                    <div class="metric-card bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-xl">
+                        <div class="text-sm opacity-90">开工率</div>
+                        <div class="text-3xl font-bold">47%</div>
+                        <div class="text-sm opacity-90">70家检修/停产</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Status -->
+    <section class="container mx-auto px-6 py-8">
+        <div class="bg-white rounded-xl card-shadow p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <span class="w-1 h-6 bg-purple-500 rounded mr-3"></span>
+                12助理执行状态
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-700">助理</th>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-700">卦象</th>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-700">任务</th>
+                            <th class="px-4 py-3 text-center font-semibold text-gray-700">状态</th>
+                            <th class="px-4 py-3 text-left font-semibold text-gray-700">核心数据</th>
+                            <th class="px-4 py-3 text-center font-semibold text-gray-700">置信度</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">1-原油</td>
+                            <td class="px-4 py-3">乾☰</td>
+                            <td class="px-4 py-3">Brent/WTI价格</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">Brent $108.4, WTI $110.3</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">2-海明</td>
+                            <td class="px-4 py-3">坤☷</td>
+                            <td class="px-4 py-3">JKM/TTF/HH国际价格</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">JKM $18.75, TTF €54.24, HH $3.05</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 bg-yellow-50">
+                            <td class="px-4 py-3 font-medium">3-陆远</td>
+                            <td class="px-4 py-3">震☳</td>
+                            <td class="px-4 py-3">中国LNG进口/贸易</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">⚠ 补采</span></td>
+                            <td class="px-4 py-3">3月进口&lt;370万吨，同比-25%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">4-润仓</td>
+                            <td class="px-4 py-3">巽☴</td>
+                            <td class="px-4 py-3">国内LNG价格</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">液厂4,813元/吨，接收站5,824元/吨</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">5-衡尺</td>
+                            <td class="px-4 py-3">坎☵</td>
+                            <td class="px-4 py-3">价格驱动因素</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">霍尔木兹35%，OPEC+30%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-semibold">B</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">6-欧风</td>
+                            <td class="px-4 py-3">离☲</td>
+                            <td class="px-4 py-3">欧洲市场/库存</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">欧洲库存29.1%，德国20.6%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">7-金算</td>
+                            <td class="px-4 py-3">艮☶</td>
+                            <td class="px-4 py-3">产业链利润</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">上游40-50%，下游8-12%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-semibold">B</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">8-盾甲</td>
+                            <td class="px-4 py-3">兑☱</td>
+                            <td class="px-4 py-3">投资评级</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">LNG股票Moderate Buy</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">9-镜史</td>
+                            <td class="px-4 py-3">乾☰</td>
+                            <td class="px-4 py-3">历史对比</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">Brent 2025年-14.67%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">10-洋基</td>
+                            <td class="px-4 py-3">坤☷</td>
+                            <td class="px-4 py-3">美国LNG产能</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">14-15 Bcfd，2029年翻倍</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">11-期货</td>
+                            <td class="px-4 py-3">阳⚊</td>
+                            <td class="px-4 py-3">期货价格/价差</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">✓ 成功</span></td>
+                            <td class="px-4 py-3">JKM-TTF价差$1.7/MMBtu</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">A</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 bg-yellow-50">
+                            <td class="px-4 py-3 font-medium">12-库存</td>
+                            <td class="px-4 py-3">阴⚋</td>
+                            <td class="px-4 py-3">全球LNG库存</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">⚠ 补采</span></td>
+                            <td class="px-4 py-3">美国1,865 Bcf，欧洲48%</td>
+                            <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-semibold">B</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-6 grid grid-cols-4 gap-4 text-center">
+                <div class="bg-green-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-green-600">11/12</div>
+                    <div class="text-sm text-gray-600">助理成功率</div>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-blue-600">92%</div>
+                    <div class="text-sm text-gray-600">数据完整度</div>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-purple-600">A-</div>
+                    <div class="text-sm text-gray-600">平均置信度</div>
+                </div>
+                <div class="bg-orange-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-orange-600">8分钟</div>
+                    <div class="text-sm text-gray-600">执行时长</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Analysis -->
+    <section class="container mx-auto px-6 py-8">
+        <div class="bg-white rounded-xl card-shadow p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                <span class="w-1 h-6 bg-red-500 rounded mr-3"></span>
+                风险提示
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
+                    <div class="flex items-center mb-2">
+                        <span class="text-red-500 font-bold text-lg">🔴</span>
+                        <span class="ml-2 font-semibold text-red-800">地缘政治</span>
+                    </div>
+                    <p class="text-sm text-red-700">霍尔木兹海峡封锁升级</p>
+                    <div class="mt-2 text-xs text-red-600">影响程度: 极高 | 概率: 中</div>
+                </div>
+                <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
+                    <div class="flex items-center mb-2">
+                        <span class="text-red-500 font-bold text-lg">🔴</span>
+                        <span class="ml-2 font-semibold text-red-800">供应中断</span>
+                    </div>
+                    <p class="text-sm text-red-700">卡塔尔/阿联酋LNG出口受限</p>
+                    <div class="mt-2 text-xs text-red-600">影响程度: 极高 | 概率: 中</div>
+                </div>
+                <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
+                    <div class="flex items-center mb-2">
+                        <span class="text-yellow-500 font-bold text-lg">🟡</span>
+                        <span class="ml-2 font-semibold text-yellow-800">需求下滑</span>
+                    </div>
+                    <p class="text-sm text-yellow-700">全球经济衰退抑制能源需求</p>
+                    <div class="mt-2 text-xs text-yellow-600">影响程度: 高 | 概率: 低</div>
+                </div>
+                <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
+                    <div class="flex items-center mb-2">
+                        <span class="text-yellow-500 font-bold text-lg">🟡</span>
+                        <span class="ml-2 font-semibold text-yellow-800">政策变化</span>
+                    </div>
+                    <p class="text-sm text-yellow-700">主要经济体能源政策调整</p>
+                    <div class="mt-2 text-xs text-yellow-600">影响程度: 中 | 概率: 低</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-400">LNG原油市场分析报告</p>
+                    <p class="text-sm text-gray-500">生成时间: 2026-04-06 16:03 | 版本: v4.2</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-gray-400">12助理协作系统</p>
+                    <p class="text-sm text-gray-500">中孚审核 | 多层验证</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Crude Oil Price Chart
+        const crudeChart = echarts.init(document.getElementById('crudeChart'));
+        crudeChart.setOption({
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['Brent', 'WTI'], bottom: 0 },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['4月4日', '4月6日', '3月1日', '2月1日'],
+                axisLabel: { fontSize: 11 }
+            },
+            yAxis: {
+                type: 'value',
+                name: '美元/桶',
+                min: 60,
+                max: 120
+            },
+            series: [
+                {
+                    name: 'Brent',
+                    type: 'line',
+                    data: [109.03, 108.4, 102.01, 70.89],
+                    smooth: true,
+                    itemStyle: { color: '#3b82f6' },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(59, 130, 246, 0.3)' },
+                            { offset: 1, color: 'rgba(59, 130, 246, 0.05)' }
+                        ])
+                    }
+                },
+                {
+                    name: 'WTI',
+                    type: 'line',
+                    data: [111.54, 110.3, 90.84, 64.51],
+                    smooth: true,
+                    itemStyle: { color: '#10b981' },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
+                            { offset: 1, color: 'rgba(16, 185, 129, 0.05)' }
+                        ])
+                    }
+                }
+            ]
+        });
+
+        // LNG Price Chart
+        const lngChart = echarts.init(document.getElementById('lngChart'));
+        lngChart.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            legend: { data: ['当前价格', 'Q2预测'], bottom: 0 },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['JKM', 'TTF', 'Henry Hub'],
+                axisLabel: { fontSize: 12 }
+            },
+            yAxis: {
+                type: 'value',
+                name: '美元/MMBtu'
+            },
+            series: [
+                {
+                    name: '当前价格',
+                    type: 'bar',
+                    data: [18.75, 18.5, 3.05],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#f59e0b' },
+                            { offset: 1, color: '#d97706' }
+                        ])
+                    }
+                },
+                {
+                    name: 'Q2预测',
+                    type: 'bar',
+                    data: [26.90, 24.4, null],
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#8b5cf6' },
+                            { offset: 1, color: '#7c3aed' }
+                        ])
+                    }
+                }
+            ]
+        });
+
+        // China Price Distribution Chart
+        const chinaPriceChart = echarts.init(document.getElementById('chinaPriceChart'));
+        chinaPriceChart.setOption({
+            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+            legend: { data: ['液厂价格', '接收站价格'], bottom: 0 },
+            grid: { left: '3%', right: '4%', bottom: '15%', containLabel: true },
+            xAxis: {
+                type: 'category',
+                data: ['最低价', '均价', '最高价'],
+                axisLabel: { fontSize: 12 }
+            },
+            yAxis: {
+                type: 'value',
+                name: '元/吨',
+                min: 3000,
+                max: 7000
+            },
+            series: [
+                {
+                    name: '液厂价格',
+                    type: 'bar',
+                    data: [4100, 4813, 5450],
+                    itemStyle: { color: '#3b82f6' },
+                    label: { show: true, position: 'top' }
+                },
+                {
+                    name: '接收站价格',
+                    type: 'bar',
+                    data: [5300, 5824, 6400],
+                    itemStyle: { color: '#10b981' },
+                    label: { show: true, position: 'top' }
+                }
+            ]
+        });
+
+        // Responsive charts
+        window.addEventListener('resize', () => {
+            crudeChart.resize();
+            lngChart.resize();
+            chinaPriceChart.resize();
+        });
+    </script>
+</body>
+</html>

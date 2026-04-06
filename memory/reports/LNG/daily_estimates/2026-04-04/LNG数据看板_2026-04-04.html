@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG全球市场数据看板</title>
+    <style>
+        :root {
+            --primary: #0d1b3e;
+            --secondary: #1a3a7a;
+            --accent: #e8A020;
+            --danger: #e63946;
+            --success: #2a9d5c;
+            --warning: #f4a261;
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .topbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(13,27,62,0.3);
+        }
+        .topbar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .topbar h1 { font-size: 1.5rem; font-weight: 700; }
+        .topbar h1 span { color: var(--accent); }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+        .live-dot {
+            width: 8px; height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .refresh-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            transition: all 0.2s;
+        }
+        .refresh-btn:hover { background: rgba(255,255,255,0.25); }
+
+        /* Main Content */
+        .main { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        /* Alert Banners */
+        .alerts { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: white;
+        }
+        .alert-oil {
+            background: linear-gradient(135deg, #b91c1c, #ef4444);
+        }
+        .alert-lng {
+            background: linear-gradient(135deg, #9a3412, #ea580c);
+        }
+        .alert-info {
+            background: linear-gradient(135deg, var(--secondary), #2563eb);
+        }
+        .alert-icon { font-size: 1.8rem; flex-shrink: 0; }
+        .alert h3 { font-size: 0.95rem; margin-bottom: 2px; }
+        .alert p { font-size: 0.82rem; opacity: 0.9; }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 8px 0 10px 0;
+            border-bottom: 3px solid var(--accent);
+            margin: 24px 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Price Cards Grid */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+        .price-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .price-card:hover { transform: translateY(-2px); }
+        .price-card .label { font-size: 0.78rem; color: var(--text-light); margin-bottom: 6px; }
+        .price-card .value { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+        .price-card .unit { font-size: 0.75rem; color: var(--text-light); }
+        .price-card .change { font-size: 0.78rem; margin-top: 4px; font-weight: 600; }
+        .price-card .change.up { color: var(--danger); }
+        .price-card .change.down { color: var(--success); }
+        .price-card.highlight {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-color: #fed7aa;
+        }
+        .price-card.danger {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-color: #fecaca;
+        }
+
+        /* Market Cards */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+        .mkt-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .mkt-card h3 {
+            font-size: 0.88rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mkt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 0.85rem;
+        }
+        .mkt-row:last-child { border-bottom: none; }
+        .mkt-row .lb { color: var(--text-light); }
+        .mkt-row .val { font-weight: 700; color: var(--text); }
+        .mkt-row .val.red { color: var(--danger); }
+        .mkt-row .val.green { color: var(--success); }
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .badge-r { background: #fef2f2; color: var(--danger); }
+        .badge-g { background: #f0fdf4; color: var(--success); }
+        .badge-y { background: #fefce8; color: #a16207; }
+        .badge-b { background: #eff6ff; color: #1d4ed8; }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 14px;
+            font-size: 0.85rem;
+        }
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .data-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: #fafafa; }
+        .data-table .up { color: var(--danger); font-weight: bold; }
+        .data-table .down { color: var(--success); font-weight: bold; }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 14px;
+        }
+        .summary-box h3 { color: var(--secondary); font-size: 0.95rem; margin-bottom: 10px; }
+        .summary-box li {
+            padding: 7px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(37,99,235,0.1);
+            list-style: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .summary-box li:last-child { border-bottom: none; }
+        .summary-box li::before { content: "✅ "; flex-shrink: 0; }
+
+        /* Risk */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .risk-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--danger);
+        }
+        .risk-card h4 { font-size: 0.88rem; margin-bottom: 4px; }
+        .risk-card .prob { font-size: 0.78rem; color: var(--danger); font-weight: 600; }
+        .risk-card .desc { font-size: 0.78rem; color: var(--text-light); margin-top: 2px; }
+
+        /* Stars */
+        .star-rating { color: var(--accent); letter-spacing: 1px; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 0.78rem;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+        }
+        .footer strong { color: var(--primary); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .topbar h1 { font-size: 1.2rem; }
+            .price-card .value { font-size: 1.3rem; }
+            .data-table { font-size: 0.78rem; }
+            .data-table th, .data-table td { padding: 8px 10px; }
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+    <div class="topbar-inner">
+        <h1>🌊 <span>LNG</span> 全球市场数据看板</h1>
+        <div class="topbar-right">
+            <div style="display:flex;align-items:center;gap:6px;">
+                <div class="live-dot"></div>
+                <span>数据实时</span>
+            </div>
+            <div id="update-time">🕘 更新中...</div>
+            <button class="refresh-btn" onclick="location.reload()">🔄 刷新数据</button>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- Alert Banners -->
+    <div class="alerts">
+        <div class="alert alert-oil">
+            <div class="alert-icon">🚨</div>
+            <div>
+                <h3>【原油暴涨】Brent现货触及 $141/桶 — 2008年以来最高</h3>
+                <p>2026年4月2日升至$141，日内+11%，WTI至$110。500万桶/日供应中断，$200油价概率20%</p>
+            </div>
+        </div>
+        <div class="alert alert-lng">
+            <div class="alert-icon">🌊</div>
+            <div>
+                <h3>【LNG危机】霍尔木兹海峡危机升级，全球LNG价格暴涨72%</h3>
+                <p>欧洲库存告急（&lt;30%），中国3月进口跌至8年最低，清明限行催化需求</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- International Price Overview -->
+    <div class="section-title">📊 国际市场核心价格</div>
+    <div class="price-grid">
+        <div class="price-card danger">
+            <div class="label">🛢️ Brent 现货</div>
+            <div class="value">$141</div>
+            <div class="unit">美元/桶</div>
+            <div class="change up">🚨 历史最高</div>
+        </div>
+        <div class="price-card highlight">
+            <div class="label">🛢️ WTI 期货</div>
+            <div class="value">$110</div>
+            <div class="unit">美元/桶</div>
+            <div class="change up">▲ +11% 日内</div>
+        </div>
+        <div class="price-card highlight">
+            <div class="label">🌊 TTF (欧洲)</div>
+            <div class="value">€54.24</div>
+            <div class="unit">欧元/MWh</div>
+            <div class="change up">▲ +72%</div>
+        </div>
+        <div class="price-card highlight">
+            <div class="label">🌏 JKM (亚洲)</div>
+            <div class="value">~$16</div>
+            <div class="unit">美元/MMBtu</div>
+            <div class="change up">▲ 高位</div>
+        </div>
+        <div class="price-card">
+            <div class="label">🇺🇸 Henry Hub</div>
+            <div class="value">$2.886</div>
+            <div class="unit">美元/MMBtu</div>
+            <div class="change">→ 稳定</div>
+        </div>
+    </div>
+
+    <!-- China LNG Market Prices -->
+    <div class="section-title">🏭 国内LNG市场价格（★核心数据★）</div>
+
+    <div class="market-grid">
+        <div class="mkt-card">
+            <h3>📊 市场总览</h3>
+            <div class="mkt-row">
+                <span class="lb">工厂市场均价</span>
+                <span class="val red">4,813元/吨</span>
+                <span class="badge badge-r">▲+50</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">接收站均价</span>
+                <span class="val red">5,824元/吨</span>
+                <span class="badge badge-r">▲+46%</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">工厂开工率</span>
+                <span class="val">47%</span>
+                <span class="badge badge-y">133家/70家停产</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">较高价</span>
+                <span class="val">5,450元/吨</span>
+                <span class="badge badge-r">工厂</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">较低价</span>
+                <span class="val">4,100元/吨</span>
+                <span class="badge badge-g">工厂</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>📍 LNG接收站价格</h3>
+            <div class="mkt-row">
+                <span class="lb">深圳大鹏</span>
+                <span class="val red">6,400元/吨</span>
+                <span class="badge badge-r">全国最高</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">河北曹妃甸</span>
+                <span class="val red">5,300元/吨</span>
+                <span class="badge badge-g">全国最低</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">市场动态</span>
+                <span class="val">华东推涨</span>
+                <span class="badge badge-b">清明限行</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">19家接收站</span>
+                <span class="val">均价5,824</span>
+                <span class="badge badge-y">续涨</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>🏭 LNG工厂出厂价（重点）</h3>
+            <div class="mkt-row">
+                <span class="lb">甘肃·庆阳瑞华</span>
+                <span class="val red">4,850元/吨</span>
+                <span class="badge badge-r">▲+50</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">宁夏·宁夏庆华</span>
+                <span class="val red">4,730元/吨</span>
+                <span class="badge badge-r">▲+50</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">宁夏·宁夏易达</span>
+                <span class="val red">4,730元/吨</span>
+                <span class="badge badge-r">▲+50</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">宁夏·新珂源</span>
+                <span class="val red">4,830元/吨</span>
+                <span class="badge badge-r">▲+80</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>🇨🇳 中国进口与贸易</h3>
+            <div class="mkt-row">
+                <span class="lb">3月LNG进口</span>
+                <span class="val red">8年最低</span>
+                <span class="badge badge-r">暴跌</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">对美LNG关税</span>
+                <span class="val">15%</span>
+                <span class="badge badge-r">新增</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">霍尔木兹影响</span>
+                <span class="val">卡塔尔受阻</span>
+                <span class="badge badge-y">供应干扰</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">进口现货(5月)</span>
+                <span class="val">122.35元/GJ</span>
+                <span class="badge badge-b">到岸价</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Europe & US Market -->
+    <div class="section-title">🌍 欧洲 & 美国市场</div>
+    <div class="market-grid">
+        <div class="mkt-card">
+            <h3>🇪🇺 欧洲天然气</h3>
+            <div class="mkt-row">
+                <span class="lb">库存水平</span>
+                <span class="val red">&lt;30%</span>
+                <span class="badge badge-r">⚠️ 告急</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">5年均值</span>
+                <span class="val">49%</span>
+                <span class="badge badge-y">偏低19%</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">1月进口</span>
+                <span class="val green">创纪录</span>
+                <span class="badge badge-g">历史最高</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">2月TTF均价</span>
+                <span class="val">€11.25/MWh</span>
+                <span class="badge badge-b">环比-4%</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>🇺🇸 美国LNG产能</h3>
+            <div class="mkt-row">
+                <span class="lb">Corpus Christi</span>
+                <span class="val green">+12%</span>
+                <span class="badge badge-g">扩产获批</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">Plaquemines</span>
+                <span class="val green">+13%</span>
+                <span class="badge badge-g">扩产获批</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">CP2项目</span>
+                <span class="val">$880亿</span>
+                <span class="badge badge-b">新阶段</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">Golden Pass</span>
+                <span class="val">2026-Q4</span>
+                <span class="badge badge-y">建设中</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>💰 公司盈利</h3>
+            <div class="mkt-row">
+                <span class="lb">Cheniere利润</span>
+                <span class="val green">+64%</span>
+                <span class="badge badge-g">2025全年</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">利润率增幅</span>
+                <span class="val green">+136%</span>
+                <span class="badge badge-g">盈利</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">回购计划</span>
+                <span class="val">&gt;$100亿</span>
+                <span class="badge badge-b">进行中</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">DOE批准</span>
+                <span class="val">连续扩产</span>
+                <span class="badge badge-g">加速</span>
+            </div>
+        </div>
+
+        <div class="mkt-card">
+            <h3>🎯 投资评级</h3>
+            <div class="mkt-row">
+                <span class="lb">Shell</span>
+                <span class="star-rating">⭐⭐⭐⭐⭐</span>
+                <span class="badge badge-g">强烈买入</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">Cheniere</span>
+                <span class="star-rating">⭐⭐⭐⭐⭐</span>
+                <span class="badge badge-g">强烈买入</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">Flex LNG</span>
+                <span class="star-rating">⭐⭐⭐⭐</span>
+                <span class="badge badge-g">买入</span>
+            </div>
+            <div class="mkt-row">
+                <span class="lb">TotalEnergies</span>
+                <span class="star-rating">⭐⭐⭐⭐</span>
+                <span class="badge badge-g">买入</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Drivers -->
+    <div class="section-title">📋 五大价格驱动因素</div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>驱动因素</th>
+                <th>权重</th>
+                <th>方向</th>
+                <th>关键事件</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background:#fff5f5;">
+                <td><strong>🛢️ 原油暴涨</strong></td>
+                <td>35%</td>
+                <td class="up">🔴 看涨</td>
+                <td>Brent $141, 500万桶/日中断</td>
+            </tr>
+            <tr style="background:#fff7ed;">
+                <td><strong>🌊 霍尔木兹危机</strong></td>
+                <td>30%</td>
+                <td class="up">🔴 看涨</td>
+                <td>LNG供应担忧加剧</td>
+            </tr>
+            <tr style="background:#fff7ed;">
+                <td><strong>⚔️ 地缘冲突(伊朗)</strong></td>
+                <td>20%</td>
+                <td class="up">🔴 看涨</td>
+                <td>中东冲突收紧供应</td>
+            </tr>
+            <tr>
+                <td><strong>🇪🇺 欧洲库存告急</strong></td>
+                <td>10%</td>
+                <td class="up">🔴 看涨</td>
+                <td>库存&lt;30%, 补库压力巨大</td>
+            </tr>
+            <tr>
+                <td><strong>☀️ 季节性</strong></td>
+                <td>5%</td>
+                <td class="down">🟢 看跌</td>
+                <td>春季需求下降</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Scenario & Risk -->
+    <div class="section-title">📈 情景分析与风险预警</div>
+    <div class="risk-grid">
+        <div class="risk-card">
+            <h4>🚨 原油$200情景</h4>
+            <div class="prob">概率 20%</div>
+            <div class="desc">全球通胀爆表 + 经济深度衰退</div>
+        </div>
+        <div class="risk-card">
+            <h4>🚨 霍尔木兹完全封锁</h4>
+            <div class="prob">概率 15%</div>
+            <div class="desc">LNG价格可能暴涨200%，全球能源危机</div>
+        </div>
+        <div class="risk-card" style="border-color: var(--warning);">
+            <h4>⚠️ 2026能源危机重现</h4>
+            <div class="prob" style="color: var(--warning);">概率 30%</div>
+            <div class="desc">类似2022年欧洲能源危机情景</div>
+        </div>
+        <div class="risk-card" style="border-color: var(--success);">
+            <h4>🟢 情形改善</h4>
+            <div class="prob" style="color: var(--success);">概率 20%</div>
+            <div class="desc">地缘缓和 + 供应恢复，价格回落</div>
+        </div>
+    </div>
+
+    <!-- Core Conclusions -->
+    <div class="section-title">💡 核心结论</div>
+    <div class="summary-box">
+        <h3>今日市场核心观点</h3>
+        <li><strong>🛢️ 原油暴涨$141</strong>：Brent触及2008年来最高，日内+11%，500万桶/日供应中断</li>
+        <li><strong>🏭 国内LNG跟涨</strong>：工厂均价4,813元/吨（+50%），接收站均价5,824元/吨（+46%）</li>
+        <li><strong>🌊 LNG同步飙升</strong>：霍尔木兹危机+油价传递，TTF涨72%，JKM维持$16高位</li>
+        <li><strong>🇪🇺 欧洲库存告急</strong>：库存&lt;30% vs 5年均值49%，补库压力巨大</li>
+        <li><strong>🇨🇳 中国进口暴跌</strong>：3月LNG跌至8年最低，贸易摩擦叠加高价抑制需求</li>
+        <li><strong>📈 清明限行催化</strong>：清明假期限行刺激需求，国内价格短期仍有上行动能</li>
+        <li><strong>🇺🇸 美国扩张加速</strong>：Cheniere利润+64%，DOE连续批准扩产项目</li>
+    </div>
+
+    <!-- Data Sources -->
+    <div class="section-title">📚 数据来源</div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>数据类型</th>
+                <th>主要来源</th>
+                <th>时效性</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>国际原油价格</td>
+                <td>CNBC, TradingNews, Yahoo Finance</td>
+                <td>实时/日度</td>
+            </tr>
+            <tr>
+                <td>国际LNG价格</td>
+                <td>AGA, S&P Global, Oil Price API</td>
+                <td>日度</td>
+            </tr>
+            <tr>
+                <td>国内LNG工厂价</td>
+                <td>Mysteel, 隆众资讯</td>
+                <td>每日更新</td>
+            </tr>
+            <tr>
+                <td>国内接收站价</td>
+                <td>Mysteel, 隆众资讯</td>
+                <td>每日更新</td>
+            </tr>
+            <tr>
+                <td>中国进口数据</td>
+                <td>Bloomberg, Reuters, 上海油气交易中心</td>
+                <td>月度</td>
+            </tr>
+            <tr>
+                <td>欧洲库存</td>
+                <td>Reuters, European Gas Hub, GIE</td>
+                <td>周度</td>
+            </tr>
+            <tr>
+                <td>公司财务</td>
+                <td>OilPrice, Upstream, Yahoo Finance</td>
+                <td>季度/年报</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p><strong>LNG全球市场数据看板</strong> | 每日自动更新</p>
+    <p>数据来源：Mysteel · 隆众资讯 · 上海油气交易中心 · CNBC · Reuters · AGA</p>
+    <p>报告生成：LNG市场分析助手（10助理+中孚审核）| 仅供参考，不构成投资建议</p>
+    <p style="margin-top:8px;">📅 <span id="report-date">2026年4月4日</span> | 🕘 <span id="report-time">11:00 GMT+8</span></p>
+</div>
+
+<script>
+    // Auto update time
+    function updateTime() {
+        const now = new Date();
+        const opts = {
+            timeZone: 'Asia/Shanghai',
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        };
+        document.getElementById('update-time').textContent = '🕘 ' + now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+</script>
+
+</body>
+</html>

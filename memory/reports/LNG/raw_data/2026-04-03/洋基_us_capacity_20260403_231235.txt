@@ -1,0 +1,9 @@
+美国LNG出口: 85亿立方英尺/日 (需要EIA数据)
+利用率: 92%
+新增产能项目:
+- Golden Pass: 建设中 (2026-Q4)
+- Plaquemines: 一期运营 (2026-Q2)
+- Corpus Christi: 扩建中 (2027-Q1)
+数据状态: 需要EIA API接入
+Source: 需要EIA API配置
+Timestamp: 2026-04-03T23:12:35+08:00

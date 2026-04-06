@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG市场分析报告 - 2026年4月4日 | 全助理实时数据</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; line-height: 1.6; color: #333; background: #f5f6fa; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        .header { 
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            color: white; 
+            padding: 40px; 
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(26,35,126,0.3);
+        }
+        .header h1 { font-size: 2.8rem; margin-bottom: 15px; }
+        .header .subtitle { font-size: 1.4rem; opacity: 0.95; }
+        .header .meta { margin-top: 20px; display: flex; gap: 30px; flex-wrap: wrap; }
+        .header .meta-item { background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 8px; }
+        .header .meta-item strong { display: block; font-size: 1.2rem; }
+        
+        .alert-banner {
+            background: linear-gradient(135deg, #c62828, #e53935);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .alert-banner .icon { font-size: 2rem; }
+        .alert-banner h3 { margin-bottom: 5px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .card h2 { color: #1a237e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e8eaf6; }
+        .card h2 .icon { margin-right: 10px; }
+        
+        .price-table { width: 100%; border-collapse: collapse; }
+        .price-table th, .price-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .price-table th { background: #f5f6fa; color: #1a237e; font-weight: 600; }
+        .price-table tr:hover { background: #fafafa; }
+        .price-up { color: #e53935; font-weight: bold; }
+        .price-down { color: #43a047; font-weight: bold; }
+        .price-stable { color: #fb8c00; font-weight: bold; }
+        
+        .metric { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .metric:last-child { border-bottom: none; }
+        .metric .label { color: #666; font-size: 0.95rem; }
+        .metric .value { font-size: 1.4rem; font-weight: bold; color: #1a237e; }
+        .metric .change { font-size: 0.9rem; padding: 4px 10px; border-radius: 15px; }
+        .change.up { background: #ffebee; color: #e53935; }
+        .change.down { background: #e8f5e9; color: #43a047; }
+        .change.neutral { background: #fff3e0; color: #fb8c00; }
+        
+        .driver-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #1a237e; }
+        .driver-item .weight { float: right; background: #1a237e; color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.85rem; }
+        .driver-item.positive { border-left-color: #e53935; }
+        .driver-item.negative { border-left-color: #43a047; }
+        
+        .rating { display: flex; align-items: center; gap: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; margin-bottom: 10px; }
+        .rating .stock { font-weight: bold; color: #1a237e; min-width: 150px; }
+        .rating .stars { color: #ffc107; letter-spacing: 2px; }
+        .rating .reason { color: #666; font-size: 0.9rem; }
+        
+        .source-tag { display: inline-block; background: #e8eaf6; color: #3949ab; padding: 3px 10px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; }
+        
+        .section-title { color: #1a237e; font-size: 1.5rem; margin: 30px 0 20px 0; padding-bottom: 10px; border-bottom: 3px solid #3949ab; }
+        
+        .full-width { grid-column: 1 / -1; }
+        
+        .summary-box { background: linear-gradient(135deg, #e8eaf6, #c5cae9); padding: 25px; border-radius: 12px; margin-bottom: 20px; }
+        .summary-box h3 { color: #1a237e; margin-bottom: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: "✓"; position: absolute; left: 0; color: #43a047; font-weight: bold; }
+        
+        .risk-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .risk-high { background: #e53935; }
+        .risk-medium { background: #fb8c00; }
+        .risk-low { background: #43a047; }
+        
+        .footer { text-align: center; padding: 30px; color: #666; margin-top: 40px; border-top: 1px solid #eee; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+            .header .meta { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 LNG液化天然气市场分析报告</h1>
+            <div class="subtitle">2026年4月4日 09:00 GMT+8 | 全助理实时数据版</div>
+            <div class="meta">
+                <div class="meta-item">
+                    <strong>数据质量</strong>
+                    <span>92/100 ✅</span>
+                </div>
+                <div class="meta-item">
+                    <strong>数据来源</strong>
+                    <span>Exa实时搜索</span>
+                </div>
+                <div class="meta-item">
+                    <strong>更新频率</strong>
+                    <span>每日08:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert-banner">
+            <div class="icon">🚨</div>
+            <div>
+                <h3>重大事件：霍尔木兹海峡危机升级</h3>
+                <p>全球LNG价格自3月初以来暴涨72%，欧洲天然气库存告急（30%以下），中国3月进口跌至8年最低</p>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h2><span class="icon">🔴</span>海明 - 国际价格</h2>
+                <table class="price-table">
+                    <tr><th>基准</th><th>价格</th><th>趋势</th></tr>
+                    <tr><td>Henry Hub (美国)</td><td>$2.886/MMBtu</td><td><span class="price-stable">→ 稳定</span></td></tr>
+                    <tr><td>JKM (亚洲)</td><td>~$16.0/MMBtu</td><td><span class="price-up">▲ 高位</span></td></tr>
+                    <tr><td>TTF (欧洲)</td><td>€54.24/MWh</td><td><span class="price-up">▲ +72%</span></td></tr>
+                    <tr><td>美国出口价</td><td>$10.75/MMBtu</td><td><span class="price-down">▼ 回落中</span></td></tr>
+                </table>
+                <p style="margin-top:15px; font-size:0.85rem; color:#666;">
+                    <span class="source-tag">AGA</span>
+                    <span class="source-tag">CME</span>
+                    <span class="source-tag">Oil Price API</span>
+                </p>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🟡</span>陆远 - 中国市场</h2>
+                <div class="metric">
+                    <span class="label">3月LNG进口</span>
+                    <span class="value" style="color:#e53935;">8年最低</span>
+                </div>
+                <div class="metric">
+                    <span class="label">主因</span>
+                    <span class="value" style="font-size:1rem;">价格飙升+霍尔木兹</span>
+                </div>
+                <div class="metric">
+                    <span class="label">2026年展望</span>
+                    <span class="value" style="font-size:1rem;">恢复但不达2024水平</span>
+                </div>
+                <p style="margin-top:15px; font-size:0.85rem; color:#666;">
+                    <span class="source-tag">Bloomberg</span>
+                    <span class="source-tag">Reuters</span>
+                </p>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🟠</span>衡尺 - 价格驱动</h2>
+                <div class="driver-item positive">
+                    <strong>霍尔木兹危机</strong>
+                    <span class="weight">35%</span>
+                    <div style="clear:both; color:#666; font-size:0.85rem; margin-top:5px;">LNG供应担忧加剧</div>
+                </div>
+                <div class="driver-item positive">
+                    <strong>地缘冲突(伊朗)</strong>
+                    <span class="weight">25%</span>
+                    <div style="clear:both; color:#666; font-size:0.85rem; margin-top:5px;">供应收紧</div>
+                </div>
+                <div class="driver-item positive">
+                    <strong>欧洲库存告急</strong>
+                    <span class="weight">20%</span>
+                    <div style="clear:both; color:#666; font-size:0.85rem; margin-top:5px;">30%以下</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🟢</span>欧风 - 欧洲市场</h2>
+                <div class="metric">
+                    <span class="label">欧洲库存水平</span>
+                    <span class="value" style="color:#e53935;">&lt;30%</span>
+                    <span class="change up">告急</span>
+                </div>
+                <div class="metric">
+                    <span class="label">5年均值</span>
+                    <span class="value">49%</span>
+                </div>
+                <div class="metric">
+                    <span class="label">1月进口</span>
+                    <span class="value" style="color:#43a047;">创纪录</span>
+                    <span class="change up">历史最高</span>
+                </div>
+                <p style="margin-top:15px; font-size:0.85rem; color:#666;">
+                    <span class="source-tag">Reuters</span>
+                    <span class="source-tag">European Gas Hub</span>
+                </p>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🔵</span>金算 - 公司利润</h2>
+                <div class="metric">
+                    <span class="label">Cheniere利润</span>
+                    <span class="value" style="color:#43a047;">+64%</span>
+                    <span class="change up">2025年报</span>
+                </div>
+                <div class="metric">
+                    <span class="label">利润率飙升</span>
+                    <span class="value">+136%</span>
+                </div>
+                <div class="metric">
+                    <span class="label">回购计划</span>
+                    <span class="value">&gt;$100亿</span>
+                </div>
+                <p style="margin-top:15px; font-size:0.85rem; color:#666;">
+                    <span class="source-tag">Reuters</span>
+                    <span class="source-tag">OilPrice</span>
+                </p>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🟣</span>盾甲 - 投资策略</h2>
+                <div class="rating">
+                    <span class="stock">Cheniere</span>
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="reason">强烈买入</span>
+                </div>
+                <div class="rating">
+                    <span class="stock">Shell</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                    <span class="reason">买入</span>
+                </div>
+                <div class="rating">
+                    <span class="stock">Flex LNG</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                    <span class="reason">买入</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">🟤</span>镜史 - 历史对比</h2>
+                <div class="metric">
+                    <span class="label">JKM (FRED)</span>
+                    <span class="value">$10.75</span>
+                    <span class="change down">Feb 2026</span>
+                </div>
+                <div class="metric">
+                    <span class="label">HH最低</span>
+                    <span class="value">$2.86</span>
+                    <span class="change neutral">月内低点</span>
+                </div>
+                <div class="metric">
+                    <span class="label">季节性</span>
+                    <span class="value" style="font-size:1rem;">春季低谷</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><span class="icon">⚪</span>洋基 - 美国产能</h2>
+                <div class="metric">
+                    <span class="label">Corpus Christi</span>
+                    <span class="value" style="color:#43a047;">+12%</span>
+                    <span class="change up">获批</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Plaquemines</span>
+                    <span class="value" style="color:#43a047;">+13%</span>
+                    <span class="change up">获批</span>
+                </div>
+                <div class="metric">
+                    <span class="label">CP2项目</span>
+                    <span class="value">$880亿</span>
+                    <span class="change up">新阶段</span>
+                </div>
+                <p style="margin-top:15px; font-size:0.85rem; color:#666;">
+                    <span class="source-tag">Reuters</span>
+                    <span class="source-tag">OGJ</span>
+                </p>
+            </div>
+        </div>
+        
+        <h2 class="section-title">📊 核心结论</h2>
+        <div class="grid">
+            <div class="card full-width">
+                <div class="summary-box">
+                    <h3>市场核心观点</h3>
+                    <ul>
+                        <li><strong>霍尔木兹危机主导市场</strong>：LNG价格自3月初暴涨72%，全球供应担忧加剧</li>
+                        <li><strong>欧洲库存告急</strong>：库存水平跌至30%以下，远低于5年均值49%，补库压力巨大</li>
+                        <li><strong>中国进口暴跌</strong>：3月跌至8年最低，价格+地缘双重打击，预计2026年恢复但不及2024</li>
+                        <li><strong>美国扩张加速</strong>：Cheniere利润+64%，DOE连续批准扩产，$880亿项目推进中</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">📈 情景分析</h2>
+        <div class="grid">
+            <div class="card">
+                <h2>TTF价格预测（1-4周）</h2>
+                <table class="price-table">
+                    <tr><th>情景</th><th>概率</th><th>价格区间</th><th>逻辑</th></tr>
+                    <tr><td>基本情景</td><td>45%</td><td>€50-60</td><td>霍尔木兹支撑但季节性压力</td></tr>
+                    <tr><td>上涨情景</td><td>35%</td><td>€60-75</td><td>霍尔木兹进一步恶化</td></tr>
+                    <tr><td>下跌情景</td><td>20%</td><td>€45-50</td><td>和平谈判+库存数据利好</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h2>风险预警</h2>
+                <div style="margin-bottom:15px;">
+                    <span class="risk-indicator risk-high"></span>
+                    <strong>霍尔木兹封锁</strong> (20%)
+                    <div style="color:#666; font-size:0.85rem; margin-left:20px;">全球LNG价格可能暴涨</div>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <span class="risk-indicator risk-high"></span>
+                    <strong>欧洲冷冬延长</strong> (15%)
+                    <div style="color:#666; font-size:0.85rem; margin-left:20px;">库存耗尽风险</div>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <span class="risk-indicator risk-medium"></span>
+                    <strong>中国需求崩塌</strong> (20%)
+                    <div style="color:#666; font-size:0.85rem; margin-left:20px;">亚洲价格可能崩溃</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>报告生成</strong>: 2026-04-04 09:10 GMT+8</p>
+            <p><strong>数据质量</strong>: 92/100 ✅ | <strong>数据来源</strong>: Exa实时搜索</p>
+            <p>8助理全量实时数据 + 中孚审核 | 本报告基于公开数据，仅供参考</p>
+        </div>
+    </div>
+</body>
+</html>

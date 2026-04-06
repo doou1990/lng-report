@@ -1,0 +1,210 @@
+                    borderColor: '#d32f2f',
+                    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'WTI原油',
+                    data: [60.06, 57.97, 60.04, 64.51, 90.84, 110],
+                    borderColor: '#f57c00',
+                    backgroundColor: 'rgba(245, 124, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: '美元/桶' }
+                    }
+                }
+            }
+        });
+
+        // LNG价格走势图
+        const lngCtx = document.getElementById('lngChart').getContext('2d');
+        new Chart(lngCtx, {
+            type: 'line',
+            data: {
+                labels: ['2026-01', '2026-02', '2026-03', '2026-04'],
+                datasets: [{
+                    label: 'TTF (€/MWh)',
+                    data: [35, 40, 45, 54.24],
+                    borderColor: '#1976d2',
+                    backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y'
+                }, {
+                    label: 'JKM ($/MMBtu)',
+                    data: [10, 12, 14, 16],
+                    borderColor: '#388e3c',
+                    backgroundColor: 'rgba(56, 142, 60, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'TTF (€/MWh)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'JKM ($/MMBtu)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // 国内LNG价格走势图
+        const chinaCtx = document.getElementById('chinaChart').getContext('2d');
+        new Chart(chinaCtx, {
+            type: 'line',
+            data: {
+                labels: ['3月初', '3月10日', '3月19日', '3月23日', '3月31日', '4月1日'],
+                datasets: [{
+                    label: '液厂均价',
+                    data: [4400, 4804, 4700, 4554, 4738, 4614],
+                    borderColor: '#388e3c',
+                    backgroundColor: 'rgba(56, 142, 60, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: '接收站均价',
+                    data: [5700, 5850, 5900, 5874, 5901, 5950],
+                    borderColor: '#d32f2f',
+                    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: {
+                        display: true,
+                        text: '单位: 元/吨'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: '元/吨' }
+                    }
+                }
+            }
+        });
+
+        // 区域价格分布图
+        const regionCtx = document.getElementById('regionChart').getContext('2d');
+        new Chart(regionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['内蒙古\n液厂', '陕西\n液厂', '宁夏\n液厂', '全国\n液厂均价', '全国\n接收站均价', '浙江\n接收站'],
+                datasets: [{
+                    label: '价格 (元/吨)',
+                    data: [4650, 4600, 4550, 4738, 5901, 6050],
+                    backgroundColor: [
+                        'rgba(56, 142, 60, 0.8)',
+                        'rgba(56, 142, 60, 0.8)',
+                        'rgba(56, 142, 60, 0.8)',
+                        'rgba(25, 118, 210, 0.8)',
+                        'rgba(211, 47, 47, 0.8)',
+                        'rgba(245, 124, 0, 0.8)'
+                    ],
+                    borderColor: [
+                        '#388e3c',
+                        '#388e3c',
+                        '#388e3c',
+                        '#1976d2',
+                        '#d32f2f',
+                        '#f57c00'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: '2026年4月国内LNG价格对比'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: { display: true, text: '元/吨' }
+                    }
+                }
+            }
+        });
+
+        // 浙江接收站价格对比
+        const zhejiangCtx = document.getElementById('zhejiangChart').getContext('2d');
+        new Chart(zhejiangCtx, {
+            type: 'bar',
+            data: {
+                labels: ['中海油宁波\n(浙、沪)', '舟山新奥\n接收站', '宁波北仑\n接收站', '嘉兴平湖\n储运站'],
+                datasets: [{
+                    label: '价格 (元/吨)',
+                    data: [6210, 6000, 5950, 5900],
+                    backgroundColor: [
+                        'rgba(211, 47, 47, 0.9)',
+                        'rgba(245, 124, 0, 0.8)',
+                        'rgba(245, 124, 0, 0.8)',
+                        'rgba(245, 124, 0, 0.8)'
+                    ],
+                    borderColor: [
+                        '#d32f2f',
+                        '#f57c00',
+                        '#f57c00',
+                        '#f57c00'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: '浙江省LNG接收站价格对比 (2026年3月)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 5500,
+                        title: { display: true, text: '元/吨' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

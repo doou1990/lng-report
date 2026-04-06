@@ -1,0 +1,85 @@
+Title: Crude Oil (Brent) — $102.01
+URL: https://exa.ai/library/markets/commodity/brent?date=2026-04-04&t=69d0c42a109a4cb400e66392
+Published: 2026-04-04T06:56:25.488Z
+Author: N/A
+Highlights:
+# Crude Oil (Brent)
+
+| Date | Price | Unit |
+|------|-------|------|
+| 2026-03-01 | $102.01 | dollars per barrel |
+| 2026-02-01 | $70.89 | dollars per barrel |
+| 2026-01-01 | $66.6 | dollars per barrel |
+| 2025-12-01 | $62.54 | dollars per barrel |
+| 2025-11-01 | $63.8 | dollars per barrel |
+
+---
+
+Title: Crude Oil (WTI) — $90.84
+URL: https://exa.ai/library/markets/commodity/wti?date=2026-04-04&t=69d0c42aa0f1ac43778c8bfa
+Published: 2026-04-04T06:56:25.496Z
+Author: N/A
+Highlights:
+# Crude Oil (WTI)
+
+| Date | Price | Unit |
+|------|-------|------|
+| 2026-03-01 | $90.84 | dollars per barrel |
+| 2026-02-01 | $64.51 | dollars per barrel |
+| 2026-01-01 | $60.04 | dollars per barrel |
+| 2025-12-01 | $57.97 | dollars per barrel |
+| 2025-11-01 | $60.06 | dollars per barrel |
+
+---
+
+Title: Current price of oil as of April 3, 2026 - Yahoo Finance
+URL: https://finance.yahoo.com/markets/commodities/articles/current-price-oil-april-3-130614397.html
+Published: 2026-04-03T13:56:25.662Z
+Author: Joseph Hostetler      Fri, April 3, 2026 at 6:06 AM PDT   5 min read
+Highlights:
+Current price of oil as of April 3, 2026 
+
+ 
+
+Oops, something went wrong
+
+ 
+
+# Current price of oil as of April 3, 2026 CL=F +0.47% At 9 a.m. Eastern Time today, oil was priced at $112.42 per barrel with Brent serving as the benchmark (we’ll explain different benchmarks later in this
+
+---
+
+Title: Brent Crude Oil Futures Price Today - Investing.com
+URL: https://www.investing.com/commodities/brent-oil
+Published: N/A
+Author: N/A
+Highlights:
+Brent Crude Oil Futures Price Today - Investing.com
+
+# Brent Oil (LCOM6)
+
+Real-time derived
+
+Symbol
+
+Exchange
+
+Currency | LCO | · | Derived | · | USD | Real-time |
+| --- | --- | --- | --- | --- | --- | | BRRTSc1 | · | Moscow | · | USD | Delayed |
+| LCOc1 | · | ICE
+
+---
+
+Title: WTI Crude Premium Over Brent Reflects Breakdown in Oil Pricing Signals | Investing.com
+URL: https://www.investing.com/analysis/wti-crude-premium-over-brent-reflects-breakdown-in-oil-pricing-signals-200677814
+Published: 2026-04-03T00:00:00.000Z
+Author: N/A
+Highlights:
+Investing.com - Financial Markets Worldwide
+Open in App
+#### Popular Searches
+##### Please try another search Popular News
+More
+* 
+’We’re in war’: Trump says downing of U.S. jet won’t affect Iran talks * 
+Second U.S. aircraft crashes in Gulf, pilot rescued- report

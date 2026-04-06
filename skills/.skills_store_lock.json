@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "skills": {
+    "self-improving-agent": {
+      "name": "self-improving-agent",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=self-improving-agent",
+      "source": "skillhub",
+      "version": "1.0.11"
+    },
+    "scrapling": {
+      "name": "Scrapling",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=scrapling",
+      "source": "skillhub",
+      "version": "1.0.8"
+    },
+    "self-improving": {
+      "name": "Self-Improving + Proactive Agent",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=self-improving",
+      "source": "skillhub",
+      "version": "1.2.16"
+    },
+    "proactive-agent": {
+      "name": "Proactive Agent",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=proactive-agent",
+      "source": "skillhub",
+      "version": "3.1.0"
+    },
+    "humanizer": {
+      "name": "Humanizer",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=humanizer",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "mcp": {
+      "name": "mcp-builder",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=mcp",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "data-analysis": {
+      "name": "Data Analysis",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=data-analysis",
+      "source": "skillhub",
+      "version": "1.0.2"
+    },
+    "data-visualization-2": {
+      "name": "Data Visualization",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=data-visualization-2",
+      "source": "skillhub",
+      "version": "0.1.5"
+    },
+    "afrexai-swot-analyzer": {
+      "name": "SWOT Analyzer",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=afrexai-swot-analyzer",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "tavily-search": {
+      "name": "Tavily Web Search",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=tavily-search",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "notion": {
+      "name": "Notion",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=notion",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "heartbeat-manager": {
+      "name": "Heartbeat Manager",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=heartbeat-manager",
+      "source": "skillhub",
+      "version": "1.2.0"
+    },
+    "stove-public-api": {
+      "name": "Stove Public Api",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=stove-public-api",
+      "source": "skillhub",
+      "version": "0.1.1"
+    },
+    "notion-skill": {
+      "name": "Notion",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=notion-skill",
+      "source": "skillhub",
+      "version": "1.0.0"
+    },
+    "brave-search": {
+      "name": "Brave Search",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=brave-search",
+      "source": "skillhub",
+      "version": "1.0.1"
+    },
+    "exa-web-search-free": {
+      "name": "Exa Web Search (Free)",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=exa-web-search-free",
+      "source": "skillhub",
+      "version": "1.0.1"
+    },
+    "gog": {
+      "name": "Gog",
+      "zip_url": "https://lightmake.site/api/v1/download?slug=gog",
+      "source": "skillhub",
+      "version": "1.0.0"
+    }
+  }
+}
