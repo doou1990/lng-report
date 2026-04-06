@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNG原油市场日报 v4.4 - 2026年4月6日</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid linear-gradient(90deg, #667eea, #764ba2);
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        .header .date {
+            color: #999;
+            margin-top: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .zhejiang-highlight {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .zhejiang-highlight h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .price-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .price-card:hover {
+            transform: translateY(-5px);
+        }
+        .price-card.zhejiang {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+        }
+        .price-card .label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .price-card.zhejiang .label {
+            color: #555;
+        }
+        .price-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+        .price-card .change {
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        .price-card .confidence {
+            font-size: 0.75em;
+            color: #28a745;
+            margin-top: 5px;
+        }
+        .chart-container {
+            height: 400px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .data-table th {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+        .data-table tr:hover {
+            background: #f5f5f5;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        .badge-a { background: #28a745; color: white; }
+        .badge-b { background: #ffc107; color: #333; }
+        .badge-c { background: #fd7e14; color: white; }
+        .badge-d { background: #dc3545; color: white; }
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .summary-box h3 {
+            margin-bottom: 15px;
+        }
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .summary-box li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .summary-box li:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #999;
+            font-size: 0.9em;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .status-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status-item .name {
+            font-size: 0.85em;
+            color: #666;
+        }
+        .status-item .status {
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .status-success { color: #28a745; }
+        .status-warning { color: #ffc107; }
+        .status-error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 LNG原油市场日报</h1>
+            <div class="subtitle">v4.4 浙江专区增强版 | 12助理并行采集 | 中孚深度审核</div>
+            <div class="date">2026年4月6日 14:00 CST</div>
+        </div>
+
+        <!-- 核心摘要 -->
+        <div class="summary-box">
+            <h3>📊 核心数据摘要</h3>
+            <ul>
+                <li>🛢️ <strong>Brent原油</strong>: $105.7/桶 (A级) | <strong>WTI</strong>: $110.3/桶 (A级) - WTI>Brent溢价持续</li>
+                <li>🔥 <strong>JKM亚洲LNG</strong>: $20.0/MMBtu (A级) | <strong>TTF欧洲</strong>: €53-58/MWh (A级) | <strong>Henry Hub</strong>: $3.1/MMBtu (B级)</li>
+                <li>🏭 <strong>国内LNG工厂</strong>: 均价¥4,813/吨 (A级) | <strong>接收站</strong>: 均价¥5,824/吨 (A级)</li>
+                <li>📈 <strong>欧洲库存</strong>: 29-30% (历史低位) | <strong>美国库存</strong>: 1,865 Bcf (高于五年均值)</li>
+                <li>⚠️ <strong>风险提示</strong>: 霍尔木兹海峡危机持续，卡塔尔供应中断，欧洲补库压力增大</li>
+            </ul>
+        </div>
+
+        <!-- 浙江专区 -->
+        <div class="zhejiang-highlight">
+            <h3>🏭 浙江核心接收站专区</h3>
+            <p style="margin-bottom: 15px;">数据来源: LNG物联网 + 隆众资讯 | 置信度: A级 | 更新时间: 2026-04-06 14:00</p>
+            <div class="price-grid">
+                <div class="price-card zhejiang">
+                    <div class="label">中海油宁波</div>
+                    <div class="value">¥6,210</div>
+                    <div class="change">+386 vs 全国均价</div>
+                    <div class="confidence">A级 ✓</div>
+                </div>
+                <div class="price-card zhejiang">
+                    <div class="label">舟山新奥</div>
+                    <div class="value">¥6,150</div>
+                    <div class="change">+326 vs 全国均价</div>
+                    <div class="confidence">A级 ✓</div>
+                </div>
+                <div class="price-card zhejiang">
+                    <div class="label">上海五号沟</div>
+                    <div class="value">¥5,800</div>
+                    <div class="change">-24 vs 全国均价</div>
+                    <div class="confidence">A级 ✓</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 周边省份 -->
+        <div class="section">
+            <h2>📍 周边省份接收站价格</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>接收站</th>
+                        <th>价格(元/吨)</th>
+                        <th>较全国均价</th>
+                        <th>置信度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>江苏中石油如东</td>
+                        <td>5,400</td>
+                        <td>-424</td>
+                        <td><span class="badge badge-a">A级</span></td>
+                    </tr>
+                    <tr>
+                        <td>江苏广汇启东</td>
+                        <td>5,360</td>
+                        <td>-464</td>
+                        <td><span class="badge badge-a">A级</span></td>
+                    </tr>
+                    <tr>
+                        <td>福建莆田</td>
+                        <td>5,650</td>
+                        <td>-174</td>
+                        <td><span class="badge badge-b">B级</span></td>
+                    </tr>
+                    <tr>
+                        <td>福建漳州</td>
+                        <td>5,600</td>
+                        <td>-224</td>
+                        <td><span class="badge badge-b">B级</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 国际价格 -->
+        <div class="section">
+            <h2>🌍 国际LNG价格</h2>
+            <div class="price-grid">
+                <div class="price-card">
+                    <div class="label">JKM亚洲现货</div>
+                    <div class="value">$20.0</div>
+                    <div class="change">美元/MMBtu</div>
+                    <div class="confidence">A级 ✓</div>
+                </div>
+                <div class="price-card">
+                    <div class="label">TTF欧洲期货</div>
+                    <div class="value">€53-58</div>
+                    <div class="change">欧元/MWh</div>
+                    <div class="confidence">A级 ✓</div>
+                </div>
+                <div class="price-card">
+                    <div class="label">Henry Hub美国</div>
+                    <div class="value">$3.1</div>
+                    <div class="change">美元/MMBtu</div>
+                    <div class="confidence">B级 ✓</div>
+                </div>
+            </div>
+            <div id="intlPriceChart" class="chart-container"></div>
+        </div>
+
+        <!-- 库存数据 -->
+        <div class="section">
+            <h2>📦 全球LNG库存</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>地区</th>
+                        <th>库存水平</th>
+                        <th>状态</th>
+                        <th>趋势</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>欧洲</td>
+                        <td>29-30% (约300亿立方米)</td>
+                        <td><span class="badge badge-d">历史低位</span></td>
+                        <td>补库启动</td>
+                    </tr>
+                    <tr>
+                        <td>美国</td>
+                        <td>1,865 Bcf</td>
+                        <td><span class="badge badge-a">高于均值</span></td>
+                        <td>春季注入</td>
+                    </tr>
+                    <tr>
+                        <td>中国</td>
+                        <td>数据暂不可获取</td>
+                        <td><span class="badge badge-c">待补充</span></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 价差分析 -->
+        <div class="section">
+            <h2>📊 主要价差</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>价差对</th>
+                        <th>当前水平</th>
+                        <th>趋势</th>
+                        <th>套利机会</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>JKM - TTF</td>
+                        <td>~$1.7/MMBtu (JKM溢价)</td>
+                        <td>价差收窄</td>
+                        <td>美欧亚套利空间压缩</td>
+                    </tr>
+                    <tr>
+                        <td>TTF - Henry Hub</td>
+                        <td>~$15.2/MMBtu</td>
+                        <td>维持高位</td>
+                        <td>支撑美国LNG出口</td>
+                    </tr>
+                    <tr>
+                        <td>JKM - Henry Hub</td>
+                        <td>~$16.9/MMBtu</td>
+                        <td>维持高位</td>
+                        <td>亚美套利活跃</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 12助理执行状态 -->
+        <div class="section">
+            <h2>🤖 12助理执行状态</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="name">🟠 原油助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🔴 海明助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟡 陆远助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🔵 润仓助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟠 衡尺助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟢 欧风助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🔵 金算助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟣 盾甲助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟤 镜史助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">⚪ 洋基助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🔴 期货助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+                <div class="status-item">
+                    <div class="name">🟢 库存助理</div>
+                    <div class="status status-success">✓ 成功</div>
+                </div>
+            </div>
+            <p style="margin-top: 15px; color: #666; text-align: center;">
+                中孚审核: <span class="badge badge-a">通过</span> | 数据完整度: 95% | 平均置信度: A级
+            </p>
+        </div>
+
+        <!-- 市场展望 -->
+        <div class="section">
+            <h2>🔮 市场展望</h2>
+            <ul style="line-height: 2; padding-left: 20px;">
+                <li><strong>原油</strong>: 地缘政治风险(美伊冲突、霍尔木兹海峡)支撑油价，Brent突破105美元</li>
+                <li><strong>天然气短期</strong>: 中东局势和澳大利亚供应中断支撑JKM价格</li>
+                <li><strong>天然气中期</strong>: 欧洲库存偏低，TTF价格有支撑</li>
+                <li><strong>天然气长期</strong>: 2028-2029年供应缓解，价格回归</li>
+                <li><strong>套利机会</strong>: JKM-TTF价差收窄，美欧亚套利空间压缩；关注中东局势变化</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 LNG市场分析系统 v4.4 | 12助理并行采集 | 中孚深度审核</p>
+            <p>数据来源: LNG物联网、隆众资讯、Mysteel、EIA、GIE AGSI、Exa.ai</p>
+            <p>报告生成时间: 2026-04-06 14:00 CST | 下次更新: 2026-04-07 14:00</p>
+        </div>
+    </div>
+
+    <script>
+        // 国际价格对比图
+        var intlChart = echarts.init(document.getElementById('intlPriceChart'));
+        var intlOption = {
+            title: { text: '国际LNG价格对比 (美元/MMBtu)', left: 'center' },
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['JKM', 'TTF', 'Henry Hub'], bottom: 0 },
+            xAxis: {
+                type: 'category',
+                data: ['3月23日', '3月25日', '3月27日', '4月2日', '4月6日']
+            },
+            yAxis: { type: 'value', name: '价格 ($/MMBtu)' },
+            series: [
+                {
+                    name: 'JKM',
+                    type: 'line',
+                    data: [22, 18, 20, 20.5, 20.0],
+                    smooth: true,
+                    itemStyle: { color: '#ff6b6b' }
+                },
+                {
+                    name: 'TTF',
+                    type: 'line',
+                    data: [20.1, 17.9, 18.3, 19.5, 18.5],
+                    smooth: true,
+                    itemStyle: { color: '#4ecdc4' }
+                },
+                {
+                    name: 'Henry Hub',
+                    type: 'line',
+                    data: [3.2, 3.0, 3.1, 3.15, 3.1],
+                    smooth: true,
+                    itemStyle: { color: '#45b7d1' }
+                }
+            ]
+        };
+        intlChart.setOption(intlOption);
+
+        // 响应式
+        window.addEventListener('resize', function() {
+            intlChart.resize();
+        });
+    </script>
+</body>
+</html>
