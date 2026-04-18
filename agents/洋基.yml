@@ -1,0 +1,193 @@
+# 洋基助理 - 第11位专业助理
+# 卦象: 坤☷ - 美国LNG产能
+# 版本: v5.1
+# 更新: 2026-04-11 - 统一搜索工具白名单
+
+name: "洋基"
+code: "yangji"
+hexagram: "坤☷"
+responsibility: "美国LNG产能+库存+EIA"
+capability_score: 0.85
+
+# ============================================
+# 搜索工具白名单（v5.1统一 - 6个工具）
+# ============================================
+search_tools:
+  # 基础工具（3个）
+  core:
+    - name: "搜狗微信搜索"
+      tool: "web_fetch"
+      priority: 1
+      description: "公众号文章搜索"
+      
+    - name: "百度搜索"
+      tool: "web_fetch"
+      priority: 2
+      description: "网页端数据补充"
+      
+    - name: "Exa搜索"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 3
+      description: "美国市场数据交叉验证"
+      
+  # 已批准技能（3个）
+  approved_skills:
+    - name: "cn-web-search"
+      priority: 4
+      description: "中文多引擎聚合"
+      
+    - name: "web-search-free"
+      priority: 5
+      description: "Exa免费AI搜索"
+      
+    - name: "tavily-search"
+      priority: 6
+      description: "高质量AI搜索"
+
+# ============================================
+# 数据源配置
+# ============================================
+data_sources:
+  primary:
+    - name: "EIA"
+      type: "api"
+      url: "https://api.eia.gov/v2/"
+      priority: 1
+      data_types:
+        - us_production
+        - us_exports
+        - us_inventory
+        - weekly_report
+        
+    - name: "FERC"
+      type: "web_search"
+      priority: 2
+      data_types:
+        - lng_export_projects
+        - capacity_approvals
+        
+    - name: "DOE"
+      type: "web_search"
+      priority: 3
+      data_types:
+        - export_permits
+        - trade_data
+        
+  fallback:
+    - name: "Platts"
+      type: "web_search"
+      priority: 4
+      
+    - name: "ICIS"
+      type: "web_search"
+      priority: 5
+      
+    - name: "Reuters"
+      type: "web_search"
+      priority: 6
+
+# ============================================
+# 采集任务配置
+# ============================================
+collection_tasks:
+  production_capacity:
+    description: "美国LNG产能"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - 当前运行产能（bcf/d）
+      - 在建产能
+      - 规划产能
+      - 产能利用率
+      - 数据来源
+      
+  export_data:
+    description: "美国LNG出口"
+    frequency: "daily"
+    timeout: 60
+    required_fields:
+      - 日出口量
+      - 主要出口目的地
+      - 出口价格
+      - 出口趋势
+      
+  us_inventory:
+    description: "美国天然气库存"
+    frequency: "weekly"
+    timeout: 60
+    required_fields:
+      - EIA库存报告
+      - 库存变化
+      - 与五年均值对比
+      - 库存预测
+      
+  project_updates:
+    description: "项目动态"
+    frequency: "daily"
+    timeout: 30
+    required_fields:
+      - 新项目投产
+      - 扩建项目进展
+      - 政策变化
+      - 投资动态
+
+# ============================================
+# 验证规则
+# ============================================
+validation_rules:
+  production_capacity:
+    min: 0
+    max: 20
+    unit: "bcf/d"
+    
+  export_volume:
+    min: 0
+    max: 15
+    unit: "bcf/d"
+    
+  inventory:
+    min: 1000
+    max: 4000
+    unit: "bcf"
+
+# ============================================
+# 置信度评分标准
+# ============================================
+confidence_scoring:
+  A:  # 90-100分
+    criteria:
+      - "EIA官方数据"
+      - "数据完整无缺失"
+      - "当日更新"
+      
+  B:  # 75-89分
+    criteria:
+      - "FERC/DOE官方数据"
+      - "可能有轻微延迟"
+      
+  C:  # 60-74分
+    criteria:
+      - "行业媒体数据"
+      - "估算成分"
+      
+  D:  # <60分
+    criteria:
+      - "单一来源"
+      - "来源不明确"
+
+# ============================================
+# 输出格式
+# ============================================
+output:
+  report_section: "美国LNG产能"
+  required_metrics:
+    - 当前运行产能
+    - 在建/规划产能
+    - 出口数据
+    - 库存水平
+    - 项目动态
+    - 数据来源清单
+    - 置信度评级

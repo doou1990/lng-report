@@ -1,0 +1,180 @@
+# 库存助理 - 第12位专业助理
+# 卦象: 阴⚋ - 全球LNG库存数据
+# 版本: v5.1
+# 更新: 2026-04-11 - 统一搜索工具白名单
+
+name: "库存"
+code: "kucun"
+hexagram: "阴⚋"
+responsibility: "全球LNG库存数据"
+capability_score: 0.85
+
+# ============================================
+# 搜索工具白名单（v5.1统一 - 6个工具）
+# ============================================
+search_tools:
+  # 基础工具（3个）
+  core:
+    - name: "搜狗微信搜索"
+      tool: "web_fetch"
+      priority: 1
+      description: "公众号文章搜索"
+      
+    - name: "百度搜索"
+      tool: "web_fetch"
+      priority: 2
+      description: "网页端数据补充"
+      
+    - name: "Exa搜索"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 3
+      description: "国际数据交叉验证"
+      
+  # 已批准技能（3个）
+  approved_skills:
+    - name: "cn-web-search"
+      priority: 4
+      description: "中文多引擎聚合"
+      
+    - name: "web-search-free"
+      priority: 5
+      description: "Exa免费AI搜索"
+      
+    - name: "tavily-search"
+      priority: 6
+      description: "高质量AI搜索"
+
+# ============================================
+# 数据源配置
+# ============================================
+data_sources:
+  primary:
+    - name: "GIE AGSI"
+      type: "api"
+      url: "https://agsi.gie.eu/api"
+      api_key: "3e9a0844c1e529e1dd2119c1cca209e6"
+      note: "API密钥需要与GIE注册账户关联才能使用"
+      registration_url: "https://agsi.gie.eu/account"
+      priority: 1
+      data_types:
+        - eu_inventory      # 欧盟整体库存
+        - country_inventory # 各国库存
+        - historical_data   # 历史数据
+      
+    - name: "EIA"
+      type: "api"
+      url: "https://api.eia.gov/v2/"
+      priority: 2
+      data_types:
+        - us_inventory      # 美国库存
+        - weekly_report     # 周报数据
+        
+  fallback:
+    - name: "GIE网页"
+      type: "web_fetch"
+      url: "https://agsi.gie.eu"
+      priority: 3
+      note: "当API不可用时，通过网页抓取获取数据"
+      
+    - name: "EIA周报"
+      type: "web_search"
+      priority: 4
+      
+    - name: "Eurostat"
+      type: "web_search"
+      priority: 5
+      
+    - name: "Trading Economics"
+      type: "web_search"
+      priority: 6
+
+# 采集任务配置
+collection_tasks:
+  eu_inventory:
+    description: "欧盟天然气库存"
+    frequency: "daily"
+    timeout: 30
+    required_fields:
+      - gas_in_storage_twh      # 库存量(TWh)
+      - fill_percentage         # 填充率(%)
+      - working_gas_volume_twh  # 工作气量(TWh)
+      - trend_percentage        # 变化趋势(%)
+      - consumption_full_days   # 可消费天数
+      
+  major_countries:
+    description: "主要欧洲国家库存"
+    countries:
+      - de  # 德国
+      - fr  # 法国
+      - it  # 意大利
+      - nl  # 荷兰
+      - at  # 奥地利
+      - es  # 西班牙
+      - uk  # 英国
+    timeout: 60
+    
+  us_inventory:
+    description: "美国天然气库存"
+    frequency: "weekly"
+    source: "EIA"
+    
+  china_inventory:
+    description: "中国LNG库存"
+    frequency: "weekly"
+    source: "web_search"
+    keywords:
+      - "中国LNG库存"
+      - "中国天然气库存"
+      - "LNG接收站库存"
+
+# 验证规则
+validation_rules:
+  fill_percentage:
+    min: 0
+    max: 100
+    unit: "%"
+    
+  gas_in_storage_twh:
+    min: 0
+    max: 5000
+    unit: "TWh"
+    
+  trend_percentage:
+    min: -10
+    max: 10
+    unit: "%/day"
+
+# 置信度评分标准
+confidence_scoring:
+  A:  # 90-100分
+    criteria:
+      - "GIE API直接获取"
+      - "数据完整无缺失"
+      - "更新时间在24小时内"
+      
+  B:  # 75-89分
+    criteria:
+      - "GIE API获取但有延迟"
+      - "或EIA官方数据"
+      
+  C:  # 60-74分
+    criteria:
+      - "权威媒体报道"
+      - "数据可能有1-2天延迟"
+      
+  D:  # <60分
+    criteria:
+      - "单一来源"
+      - "数据不完整或过时"
+
+# 输出格式
+output:
+  report_section: "全球库存"
+  required_metrics:
+    - eu_fill_percentage
+    - eu_gas_in_storage
+    - major_countries_summary
+    - trend_analysis
+    - year_over_year_comparison

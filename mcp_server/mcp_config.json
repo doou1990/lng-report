@@ -1,0 +1,76 @@
+{
+  "mcpServers": {
+    "lng-market-data": {
+      "command": "python3",
+      "args": [
+        "/root/.openclaw/workspace/skills/lng-market-analysis/mcp_server/lng_data_server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "/root/.openclaw/workspace/skills/lng-market-analysis"
+      },
+      "description": "LNG市场数据采集MCP服务器 - 10位专业助理工具",
+      "tools": [
+        {
+          "name": "collect_crude_oil_price",
+          "description": "原油助理 - 采集Brent/WTI价格",
+          "assistant": "原油"
+        },
+        {
+          "name": "collect_lng_international_price",
+          "description": "海明助理 - 采集JKM/TTF/Henry Hub价格",
+          "assistant": "海明"
+        },
+        {
+          "name": "collect_domestic_lng_price",
+          "description": "润仓助理 - 采集国内LNG价格（浙江专区必采）",
+          "assistant": "润仓"
+        },
+        {
+          "name": "collect_europe_inventory",
+          "description": "欧风助理 - 采集欧洲库存数据",
+          "assistant": "欧风"
+        },
+        {
+          "name": "collect_us_lng_data",
+          "description": "洋基助理 - 采集美国LNG数据",
+          "assistant": "洋基"
+        },
+        {
+          "name": "collect_china_import_data",
+          "description": "陆远助理 - 采集中国进口数据",
+          "assistant": "陆远"
+        },
+        {
+          "name": "collect_market_drivers",
+          "description": "衡尺助理 - 采集五因子驱动因素",
+          "assistant": "衡尺"
+        },
+        {
+          "name": "collect_industry_profit",
+          "description": "金算助理 - 采集产业链利润",
+          "assistant": "金算"
+        },
+        {
+          "name": "collect_investment_rating",
+          "description": "盾甲助理 - 采集投资评级",
+          "assistant": "盾甲"
+        },
+        {
+          "name": "collect_historical_comparison",
+          "description": "镜史助理 - 采集历史对比数据",
+          "assistant": "镜史"
+        },
+        {
+          "name": "evaluate_data_quality",
+          "description": "中孚（Evaluator）- 数据质量审核",
+          "assistant": "中孚"
+        },
+        {
+          "name": "batch_collect_all",
+          "description": "规划者（Planner）- 批量采集所有数据",
+          "assistant": "规划者"
+        }
+      ]
+    }
+  }
+}

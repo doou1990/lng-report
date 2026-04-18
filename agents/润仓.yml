@@ -1,0 +1,381 @@
+# 润仓助理 - 第5位专业助理
+# 卦象: 巽☴ - 国内LNG市场价格
+# 版本: v5.1
+# 更新: 2026-04-11 - 优化搜索工具和公众号数据源
+
+name: "润仓"
+code: "runcang"
+hexagram: "巽☴"
+responsibility: "国内LNG市场价格（含浙江专区）"
+capability_score: 0.95
+
+# ============================================
+# 搜索工具白名单（v5.1限定 - 7个工具）
+# ============================================
+search_tools:
+  # 基础工具（3个）- 核心数据源
+  core:
+    - name: "搜狗微信搜索"
+      tool: "web_fetch"
+      base_url: "https://weixin.sogou.com/weixin?type=2&query={keyword}&page=1"
+      priority: 1
+      description: "公众号文章搜索，国内LNG价格核心数据源"
+      
+    - name: "百度搜索"
+      tool: "web_fetch"
+      base_url: "https://www.baidu.com/s?wd={keyword}"
+      priority: 2
+      description: "网页端价格数据补充"
+      
+    - name: "Exa搜索"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 3
+      description: "国际LNG价格交叉验证"
+      
+  # 已批准技能（3个 - 2026-04-11）
+  # 经用户批准加入白名单的skill
+  approved_skills:
+    - name: "cn-web-search"
+      skill_path: "skills/cn-web-search"
+      tool: "web_fetch"
+      priority: 4
+      description: "中文网页搜索 - 聚合22+免费引擎，支持公众号/知乎/财经搜索"
+      usage: "当基础工具无结果时作为备用，或需要多引擎验证时"
+      capabilities:
+        - "搜狗微信+必应索引（公众号）"
+        - "百度/360/搜狗/头条（中文综合）"
+        - "东方财富/集思录/财新（财经）"
+        - "Wikipedia/Wolfram（知识）"
+      
+    - name: "web-search-free"
+      skill_path: "skills/web-search-free"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 5
+      description: "Exa免费AI搜索 - 神经搜索，无需API Key"
+      usage: "国际LNG价格深度搜索，代码/公司/人物研究"
+      capabilities:
+        - "网页搜索（web_search_exa）"
+        - "代码搜索（get_code_context_exa）"
+        - "公司研究（company_research_exa）"
+        - "深度研究（deep_researcher_start）"
+      
+    - name: "tavily-search"
+      skill_path: "skills/tavily-search"
+      tool: "tavily_search"
+      priority: 6
+      description: "Tavily高质量AI搜索 - 专为AI代理优化"
+      usage: "深度研究、国际新闻、复杂查询、高质量结果"
+      require_api_key: true
+      env_var: "TAVILY_API_KEY"
+      capabilities:
+        - "基础/高级搜索（search_depth）"
+        - "时间范围过滤（time_range）"
+        - "主题分类（topic: general/news/finance）"
+        - "高相关性结果"
+
+# ============================================
+# 浙江专区数据源（专业公众号）
+# ============================================
+zhejiang_sources:
+  primary:
+    - name: "浙江国际油气交易中心"
+      type: "公众号"
+      search_keyword: "浙江 LNG 价格指数"
+      data_types:
+        - 浙江LNG价格指数
+        - 宁波接收站价格
+        - 舟山接收站价格
+        - 上海五号沟价格
+      priority: 1
+      
+    - name: "燃气在线"
+      type: "公众号"
+      search_keyword: "浙江 LNG 价格 燃气在线"
+      data_types:
+        - 浙江接收站挂牌价
+        - 周边省份对比
+      priority: 2
+      
+    - name: "蚂蚁能服"
+      type: "公众号"
+      search_keyword: "浙江 LNG 蚂蚁能服"
+      data_types:
+        - 浙江地区LNG价格
+      priority: 3
+      
+  secondary:
+    - name: "浙江能源"
+      type: "公众号"
+      search_keyword: "浙江能源 LNG"
+      data_types:
+        - 政策动态
+        - 项目进展
+      priority: 4
+
+# ============================================
+# 国内LNG数据源（专业公众号）
+# ============================================
+domestic_sources:
+  # 价格类公众号（每日更新）
+  price_daily:
+    - name: "LNG168物联网"
+      search_keyword: "LNG168物联网 价格"
+      data_types:
+        - 液厂出厂价
+        - 接收站挂牌价
+        - 市场均价
+        - 开工率
+      priority: 1
+      
+    - name: "LNG天然气每日信息"
+      search_keyword: "LNG天然气每日信息 液厂"
+      data_types:
+        - 液厂平均出厂价
+        - 区域价格
+      priority: 2
+      
+    - name: "海波谈LNG"
+      search_keyword: "海波谈LNG 液厂码头"
+      data_types:
+        - 液厂挂牌价
+        - 码头挂牌价
+      priority: 3
+      
+    - name: "LNG贸易及配送"
+      search_keyword: "LNG贸易及配送 液厂价格"
+      data_types:
+        - 液厂出厂价格
+        - 市场动态
+      priority: 4
+      
+  # 行业资讯类（权威分析）
+  industry_analysis:
+    - name: "隆众资讯订阅号"
+      search_keyword: "隆众资讯 LNG 价格"
+      data_types:
+        - 市场分析
+        - 价格走势
+        - 产业链数据
+      priority: 1
+      
+    - name: "卓创资讯能源观察"
+      search_keyword: "卓创资讯 天然气"
+      data_types:
+        - 天然气市场分析
+        - 价格预测
+      priority: 2
+      
+    - name: "卓创资讯天然气"
+      search_keyword: "卓创资讯天然气 LNG"
+      data_types:
+        - LNG价格
+        - 进口数据
+      priority: 3
+      
+  # 交易平台类
+  trading_platform:
+    - name: "重庆石油天然气交易中心"
+      search_keyword: "重庆石油天然气交易中心 LNG"
+      data_types:
+        - 交易价格
+        - 区域厂站价格
+      priority: 2
+
+# ============================================
+# 采集任务配置
+# ============================================
+collection_tasks:
+  # 浙江专区（必采）
+  zhejiang_prices:
+    description: "浙江专区LNG价格"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - 浙江LNG价格指数
+      - 宁波接收站价格（元/吨）
+      - 舟山接收站价格（元/吨）
+      - 上海五号沟接收站价格（元/吨）
+      - 数据来源
+      - 发布时间
+    search_strategy:
+      - "浙江 LNG 价格指数 site:mp.weixin.qq.com"
+      - "宁波 舟山 LNG 接收站 价格"
+      - "上海五号沟 LNG 价格"
+      
+  # 国内液厂价格（必采）
+  domestic_factory:
+    description: "国内LNG液厂出厂价"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - 全国液厂平均出厂价（元/吨）
+      - 主要液厂价格区间
+      - 液厂开工率
+      - 数据来源
+    search_strategy:
+      - "LNG 液厂 出厂价 今日"
+      - "LNG168物联网 价格"
+      - "LNG天然气每日信息 液厂"
+      
+  # 接收站价格（必采）
+  domestic_terminal:
+    description: "国内LNG接收站挂牌价"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - 主要接收站挂牌价（曹妃甸/大鹏/董家口等）
+      - 槽车价格
+      - 市场均价
+      - 数据来源
+    search_strategy:
+      - "LNG 接收站 挂牌价"
+      - "海波谈LNG 液厂码头"
+      - "燃气在线 LNG价格"
+      
+  # 开工率（必采）
+  operating_rate:
+    description: "国内LNG液厂开工率"
+    frequency: "daily"
+    timeout: 30
+    required: true
+    required_fields:
+      - 全国液厂开工率（%）
+      - 区域开工率
+      - 数据来源
+    search_strategy:
+      - "LNG 液厂 开工率"
+      - "隆众资讯 LNG 开工率"
+
+# ============================================
+# 搜索策略优化（v5.1）
+# ============================================
+search_optimization:
+  # 公众号优先策略
+  wechat_first:
+    enabled: true
+    reason: "公众号文章通常包含当日最新价格，且数据来源可靠"
+    
+  # 多源验证策略
+  multi_source:
+    enabled: true
+    min_sources: 2
+    max_sources: 4
+    
+  # 时效性优先
+  freshness_priority:
+    enabled: true
+    prefer_within_hours: 24
+    max_age_days: 3
+    
+  # 关键词组合
+  keyword_templates:
+    - "{region} LNG 价格 {date}"
+    - "{source} LNG {type}"
+    - "{type} 价格 今日"
+    - "{region} {terminal} 接收站"
+
+# ============================================
+# 数据提取规则
+# ============================================
+extraction_rules:
+  price_patterns:
+    - pattern: '(\d{3,4})\s*元/吨'
+      description: "价格格式：元/吨"
+      example: "4500元/吨"
+      
+    - pattern: '(\d{2,3})\s*%'
+      description: "百分比格式：开工率"
+      example: "65%"
+      
+    - pattern: '(20\d{2})年(\d{1,2})月(\d{1,2})日'
+      description: "日期格式"
+      example: "2026年4月11日"
+      
+  zhejiang_specific:
+    - pattern: '浙江.*价格.*?(\d{3,4})'
+      description: "浙江LNG价格指数"
+      
+    - pattern: '宁波.*?(\d{3,4})'
+      description: "宁波接收站价格"
+      
+    - pattern: '舟山.*?(\d{3,4})'
+      description: "舟山接收站价格"
+      
+    - pattern: '五号沟.*?(\d{3,4})'
+      description: "上海五号沟价格"
+
+# ============================================
+# 验证规则
+# ============================================
+validation_rules:
+  price_range:
+    min: 2000
+    max: 8000
+    unit: "元/吨"
+    
+  operating_rate:
+    min: 0
+    max: 100
+    unit: "%"
+    
+  zhejiang_premium:
+    description: "浙江价格通常高于全国平均"
+    expected_diff: 200-800  # 元/吨
+
+# ============================================
+# 置信度评分标准
+# ============================================
+confidence_scoring:
+  A:  # 90-100分
+    criteria:
+      - "来自浙江国际油气交易中心官方公众号"
+      - "数据完整，包含浙江专区全部字段"
+      - "当日发布，时效性强"
+      - "有明确数据来源标注"
+      
+  B:  # 75-89分
+    criteria:
+      - "来自LNG168物联网、燃气在线等权威公众号"
+      - "数据基本完整，可能缺少1-2个字段"
+      - "3日内发布"
+      - "有数据来源"
+      
+  C:  # 60-74分
+    criteria:
+      - "来自行业分析公众号（隆众/卓创）"
+      - "数据部分完整"
+      - "可能有1-2天延迟"
+      - "来源标注不够明确"
+      
+  D:  # <60分
+    criteria:
+      - "单一来源，未经验证"
+      - "数据不完整或过时"
+      - "来源不明确"
+
+# ============================================
+# 输出格式
+# ============================================
+output:
+  report_section: "国内LNG市场价格"
+  required_metrics:
+    - 浙江LNG价格指数
+    - 宁波接收站价格
+    - 舟山接收站价格
+    - 上海五号沟价格
+    - 全国液厂平均出厂价
+    - 主要液厂价格区间
+    - 主要接收站挂牌价
+    - 液厂开工率
+    - 数据来源清单
+    - 置信度评级
+    
+  output_format: "JSON"
+  file_name: "data_润仓_{date}.json"

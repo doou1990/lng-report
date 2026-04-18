@@ -1,0 +1,97 @@
+# 双轨定时任务配置
+# v6.3.1 纵横分析法双轨方案
+# 更新：2026-04-18 已配置历史数据库
+
+tasks:
+  # 方案A：每日轻量版（14:00生成）
+  - name: "LNG日报-每日版"
+    schedule: "0 14 * * *"
+    timezone: "Asia/Shanghai"
+    template: "report_template_v6.3.1.md"
+    output_name: "LNG日报_{{DATE}}_每日版"
+    mode: "light"
+    description: "九章 + 第十章纵横分析（独立板块）"
+    enabled: true
+    
+  # 方案B：每周全融合版（周日09:00生成）
+  - name: "LNG日报-全融合版"
+    schedule: "0 9 * * 0"
+    timezone: "Asia/Shanghai"
+    template: "report_template_v6.3.1_full.md"
+    output_name: "LNG日报_{{DATE}}_全融合版"
+    mode: "full"
+    description: "纵横法贯穿全报告9章"
+    enabled: true
+
+# 历史数据库配置
+historical_data:
+  enabled: true
+  source: "data/historical_data.json"
+  coverage_years: 6
+  last_updated: "2026-04-18"
+  
+  # 数据完整性加速方案
+  data_sources:
+    eia_api: 
+      status: "已配置"
+      coverage: "1997年至今"
+    iea_reports: 
+      status: "已接入"
+      coverage: "2020年至今"
+    global_lng_hub: 
+      status: "已接入"
+      coverage: "2020年至今"
+
+# 切换条件监控
+switch_criteria:
+  # 当前状态（基于历史数据库）
+  data_completeness: 
+    current: 85
+    target: 95
+    status: "加速中"
+    
+  historical_coverage: 
+    current: "6年"
+    target: "3年"
+    status: "✅ 已达标"
+    
+  stability_days: 
+    current: 0
+    target: 14
+    status: "监控中"
+    
+  report_count: 
+    current: 0
+    target: 10
+    status: "积累中"
+
+# 加速方案
+acceleration:
+  # 通过接入历史数据库，3年覆盖已达成
+  historical_data_ready: true
+  
+  # 数据完整性提升计划
+  completeness_roadmap:
+    week_1: "接入EIA历史API → 目标85%"
+    week_2: "优化国内数据源 → 目标90%"
+    week_3: "多源交叉验证 → 目标95%"
+    
+  # 预计切换时间
+  estimated_switch_date: "2026-05-09"
+
+## 通知设置
+notifications:
+  # 当满足切换条件时通知用户
+  switch_ready:
+    enabled: true
+    message: "方案B已就绪，建议切换到全融合模式"
+    
+  # 每周全融合版生成后通知
+  weekly_report:
+    enabled: true
+    message: "本周全融合深度报告已生成"
+    
+  # 数据完整性里程碑
+  completeness_milestone:
+    enabled: true
+    milestones: [85, 90, 95]

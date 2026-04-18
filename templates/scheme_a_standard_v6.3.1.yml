@@ -1,0 +1,81 @@
+# LNG市场日报 - 方案A标准模板 v6.3.1-FINAL
+# 版本锁定时间: 2026-04-18 15:39
+# 变更控制: 需用户明确许可
+
+## 模板信息
+version: "6.3.1-FINAL"
+scheme: "A"
+name: "每日轻量版-完整10章"
+locked_at: "2026-04-18T15:39:00+08:00"
+locked_by: "user-approval"
+
+## 强制要求
+chapters_required: 10
+content_structure: "fixed"
+change_policy: "no-modification-without-approval"
+
+## 10章标准结构
+chapters:
+  1: "执行摘要"           # 核心结论、关键数据一览、风险提示
+  2: "市场概况"           # 全球供需格局、关键事件影响
+  3: "原油价格分析"       # 现货价格、五因子模型
+  4: "LNG价格分析"        # 国际/国内/浙江专区
+  5: "供给分析"           # 全球产能、出口国动态
+  6: "需求分析"           # 中国进口、季节性因素
+  7: "库存与平衡"         # 全球库存、供需展望
+  8: "风险与展望"         # 地缘政治、价格预测
+  9: "数据附录"           # 来源说明、置信度评级
+  10: "纵横分析"          # 纵向时间轴+横向对比
+
+## 必含数据项
+data_required:
+  # 原油
+  - brent_spot_price      # Brent现货价格（非期货）
+  - wti_spot_price        # WTI现货价格
+  - brent_wti_spread      # 价差
+  
+  # 国际LNG
+  - jkm_price             # JKM日韩标杆
+  - ttf_price             # TTF欧洲
+  - henry_hub_price       # Henry Hub美国
+  
+  # 国内LNG
+  - china_factory_price   # 液厂均价
+  - china_terminal_price  # 接收站均价
+  - zhejiang_ningbo       # 浙江宁波
+  - zhejiang_zhoushan     # 浙江舟山
+  - zhejiang_wenzhou      # 浙江温州
+  
+  # 库存
+  - eu_inventory_rate     # 欧洲库存率
+  - us_inventory_change   # 美国库存变化
+  
+  # 其他
+  - data_completeness     # 数据完整度
+  - confidence_ratings    # 置信度评级
+
+## 样式规范
+style:
+  header: "渐变紫蓝"
+  zhejiang_section: "橙黄渐变+红色边框"
+  insight_box: "紫蓝渐变"
+  chart: "ECharts三线对比"
+  data_quality_badges: "A/B/C/D四级"
+
+## 变更控制
+approval_required_for:
+  - 章节结构调整
+  - 新增/删除章节
+  - 数据项变更
+  - 样式颜色调整
+  - 图表类型变更
+
+## 当前状态
+status: "LOCKED"
+last_modified: "2026-04-18T15:39:00+08:00"
+modification_count: 0
+
+## 备注
+# 此模板已根据用户要求锁定为方案A标准输出
+# 任何变更必须获得用户明确书面许可
+# 双轨方案：方案A(每日) + 方案B(每周全融合)

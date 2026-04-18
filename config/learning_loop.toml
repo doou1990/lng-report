@@ -1,0 +1,51 @@
+# LNG市场分析 - 学习循环配置
+# LNG Market Analysis - Learning Loop Configuration
+# 版本: v6.3-LEARNING
+# 创建时间: 2026-04-18
+
+[learning_loop]
+enabled = true
+version = "6.3"
+base_version = "6.2-BASE"
+
+# 触发设置
+trigger.after_report = true
+trigger.schedule = "0 14 * * *"
+trigger.timezone = "Asia/Shanghai"
+
+# 变更审批策略
+approval.minor_changes = "auto"      # 小变更自动
+approval.major_changes = "manual"    # 大变更需审批
+
+# 变更分类标准
+[approval.thresholds]
+# 小变更（自动）
+minor.keywords_update = true         # 搜索关键词优化
+minor.source_addition = "quality >= C"  # 新增C级以上数据源
+minor.rule_tuning = "threshold <= 5%"   # 阈值微调≤5%
+
+# 大变更（需审批）
+major.source_addition = "quality < C"   # 新增C级以下数据源
+major.rule_change = "threshold > 5%"    # 阈值调整>5%
+major.new_data_item = true              # 新增必采数据项
+major.architecture_change = true        # 架构变更
+
+# 学习循环步骤
+[learning_loop.steps]
+step1_evaluation = true      # 结果评估
+step2_extraction = true      # 技能提取
+step3_improvement = true     # 技能改进
+step4_monthly_review = true  # 月度深化
+
+# 回退机制
+[fallback]
+enabled = true
+condition = "v6.3_error_or_user_request"
+auto_rollback = false        # 需用户确认回退
+fallback_target = "v6.2-BASE"
+
+# 日志记录
+[logging]
+level = "info"
+retention_days = 90
+changelog_file = "CHANGELOG.md"

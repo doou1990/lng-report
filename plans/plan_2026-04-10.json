@@ -1,0 +1,827 @@
+{
+  "plan_id": "plan_2026-04-10",
+  "date": "2026-04-10",
+  "report_type": "LNG原油市场日报",
+  "version": "v5.0-BASE",
+  "planner": "Planner-001",
+  "created_at": "2026-04-10T12:55:00+08:00",
+  "architecture": "Planner-Generator-Evaluator",
+  "agents": [
+    {
+      "agent_id": "A01",
+      "name": "原油",
+      "role": "原油价格分析师",
+      "priority": 1,
+      "execution_order": 1,
+      "tasks": [
+        {
+          "task_id": "T01-001",
+          "category": "原油价格",
+          "description": "采集Brent现货价格",
+          "required_fields": ["price", "unit", "timestamp", "source"],
+          "target_value": "当日收盘价",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T01-002",
+          "category": "原油价格",
+          "description": "采集WTI现货价格",
+          "required_fields": ["price", "unit", "timestamp", "source"],
+          "target_value": "当日收盘价",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T01-003",
+          "category": "原油价格",
+          "description": "计算Brent-WTI价差",
+          "required_fields": ["spread", "calculation_method", "timestamp"],
+          "target_value": "实时计算",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T01-004",
+          "category": "原油价格",
+          "description": "采集期限结构数据(M1/M3/M6)",
+          "required_fields": ["m1_price", "m3_price", "m6_price", "curve_shape", "source"],
+          "target_value": "期货合约价格",
+          "quality_target": "A级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "ICE Brent期货",
+          "url": "https://www.theice.com/products/219/Brent-Crude-Futures",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "NYMEX WTI期货",
+          "url": "https://www.cmegroup.com/markets/energy/crude-oil/light-sweet-crude.html",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "EIA原油数据",
+          "url": "https://www.eia.gov/petroleum/",
+          "priority": 2,
+          "reliability": "A"
+        },
+        {
+          "name": "Bloomberg能源",
+          "url": "https://www.bloomberg.com/energy",
+          "priority": 3,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": true,
+        "freshness": "当日"
+      }
+    },
+    {
+      "agent_id": "A02",
+      "name": "海明",
+      "role": "国际LNG价格分析师",
+      "priority": 1,
+      "execution_order": 2,
+      "tasks": [
+        {
+          "task_id": "T02-001",
+          "category": "国际LNG价格",
+          "description": "采集JKM现货价格",
+          "required_fields": ["price", "unit", "timestamp", "delivery_period", "source"],
+          "target_value": "Platts评估价",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T02-002",
+          "category": "国际LNG价格",
+          "description": "采集TTF现货价格",
+          "required_fields": ["price", "unit", "timestamp", "source"],
+          "target_value": "ICE TTF期货",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T02-003",
+          "category": "国际LNG价格",
+          "description": "采集Henry Hub现货价格",
+          "required_fields": ["price", "unit", "timestamp", "source"],
+          "target_value": "NYMEX HH期货",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T02-004",
+          "category": "价差分析",
+          "description": "计算JKM-TTF价差",
+          "required_fields": ["spread", "arbitrage_signal", "timestamp"],
+          "target_value": "实时计算",
+          "quality_target": "B级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "Platts JKM",
+          "url": "https://www.spglobal.com/commodityinsights/",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "ICE TTF期货",
+          "url": "https://www.theice.com/products/27996665/Dutch-TTF-Gas-Futures",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "NYMEX Henry Hub",
+          "url": "https://www.cmegroup.com/markets/energy/natural-gas/natural-gas.html",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "Spark Commodities",
+          "url": "https://www.sparkcommodities.com/",
+          "priority": 2,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": true,
+        "freshness": "当日"
+      }
+    },
+    {
+      "agent_id": "A03",
+      "name": "润仓",
+      "role": "国内LNG价格分析师",
+      "priority": 1,
+      "execution_order": 3,
+      "tasks": [
+        {
+          "task_id": "T03-001",
+          "category": "国内LNG价格",
+          "description": "采集华北液厂出厂价(代表:陕西/内蒙)",
+          "required_fields": ["region", "price", "unit", "date", "source"],
+          "target_value": "主流液厂报价",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T03-002",
+          "category": "国内LNG价格",
+          "description": "采集华东液厂出厂价(代表:山东/江苏)",
+          "required_fields": ["region", "price", "unit", "date", "source"],
+          "target_value": "主流液厂报价",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T03-003",
+          "category": "国内LNG价格",
+          "description": "采集华南液厂出厂价(代表:广东/福建)",
+          "required_fields": ["region", "price", "unit", "date", "source"],
+          "target_value": "主流液厂报价",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T03-004",
+          "category": "国内LNG价格",
+          "description": "【浙江专区】采集宁波接收站挂牌价",
+          "required_fields": ["terminal", "price", "unit", "date", "source"],
+          "target_value": "接收站挂牌价",
+          "quality_target": "B级",
+          "highlight": true
+        },
+        {
+          "task_id": "T03-005",
+          "category": "国内LNG价格",
+          "description": "【浙江专区】采集舟山接收站挂牌价",
+          "required_fields": ["terminal", "price", "unit", "date", "source"],
+          "target_value": "接收站挂牌价",
+          "quality_target": "B级",
+          "highlight": true
+        },
+        {
+          "task_id": "T03-006",
+          "category": "国内LNG价格",
+          "description": "【浙江专区】采集上海接收站挂牌价",
+          "required_fields": ["terminal", "price", "unit", "date", "source"],
+          "target_value": "接收站挂牌价",
+          "quality_target": "B级",
+          "highlight": true
+        },
+        {
+          "task_id": "T03-007",
+          "category": "国内LNG价格",
+          "description": "采集全国市场均价",
+          "required_fields": ["avg_price", "unit", "date", "calculation_method", "source"],
+          "target_value": "加权平均价",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T03-008",
+          "category": "国内LNG价格",
+          "description": "采集液厂开工率",
+          "required_fields": ["operating_rate", "date", "sample_size", "source"],
+          "target_value": "行业统计",
+          "quality_target": "C级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "卓创资讯LNG",
+          "url": "https://www.sci99.com/",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "金联创LNG",
+          "url": "https://www.315i.com/",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "隆众资讯",
+          "url": "https://www.oilchem.net/",
+          "priority": 2,
+          "reliability": "B"
+        },
+        {
+          "name": "上海石油天然气交易中心",
+          "url": "https://www.shpgx.com/",
+          "priority": 2,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "20分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": true,
+        "freshness": "当日",
+        "special_focus": "浙江专区(宁波/舟山/上海)必须完整采集"
+      }
+    },
+    {
+      "agent_id": "A04",
+      "name": "陆远",
+      "role": "中国进口数据分析师",
+      "priority": 2,
+      "execution_order": 4,
+      "tasks": [
+        {
+          "task_id": "T04-001",
+          "category": "中国进口数据",
+          "description": "采集近期LNG进口量",
+          "required_fields": ["volume", "unit", "period", "source"],
+          "target_value": "海关统计数据",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T04-002",
+          "category": "中国进口数据",
+          "description": "采集进口来源国分布",
+          "required_fields": ["country", "volume", "percentage", "period", "source"],
+          "target_value": "Top5来源国",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T04-003",
+          "category": "中国进口数据",
+          "description": "采集进口均价",
+          "required_fields": ["avg_price", "unit", "period", "source"],
+          "target_value": "海关统计数据",
+          "quality_target": "A级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "中国海关总署",
+          "url": "http://www.customs.gov.cn/",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "国家能源局",
+          "url": "http://www.nea.gov.cn/",
+          "priority": 2,
+          "reliability": "A"
+        },
+        {
+          "name": "海关总署统计数据",
+          "url": "http://stats.customs.gov.cn/",
+          "priority": 1,
+          "reliability": "A"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "A级",
+        "multi_source": false,
+        "freshness": "月度最新"
+      }
+    },
+    {
+      "agent_id": "A05",
+      "name": "欧风",
+      "role": "库存数据分析师",
+      "priority": 2,
+      "execution_order": 5,
+      "tasks": [
+        {
+          "task_id": "T05-001",
+          "category": "库存数据",
+          "description": "采集欧洲天然气库存(GIE AGSI)",
+          "required_fields": ["current_volume", "capacity", "fill_rate", "date", "source"],
+          "target_value": "AGSI+数据",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T05-002",
+          "category": "库存数据",
+          "description": "采集美国天然气库存(EIA)",
+          "required_fields": ["current_volume", "change", "vs_5year_avg", "date", "source"],
+          "target_value": "EIA周报数据",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T05-003",
+          "category": "库存数据",
+          "description": "估算中国LNG库存",
+          "required_fields": ["estimated_volume", "methodology", "date", "source"],
+          "target_value": "行业估算",
+          "quality_target": "C级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "GIE AGSI+",
+          "url": "https://agsi.gie.eu/",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "EIA天然气库存",
+          "url": "https://www.eia.gov/naturalgas/storage/",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "IEA天然气市场报告",
+          "url": "https://www.iea.org/reports/natural-gas-market-report",
+          "priority": 2,
+          "reliability": "A"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "A级",
+        "multi_source": false,
+        "freshness": "最新周报"
+      }
+    },
+    {
+      "agent_id": "A06",
+      "name": "洋基",
+      "role": "美国产能与库存分析师",
+      "priority": 2,
+      "execution_order": 6,
+      "tasks": [
+        {
+          "task_id": "T06-001",
+          "category": "供给分析",
+          "description": "采集美国LNG出口产能",
+          "required_fields": ["capacity", "utilization_rate", "date", "source"],
+          "target_value": "EIA数据",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T06-002",
+          "category": "供给分析",
+          "description": "采集美国LNG出口量",
+          "required_fields": ["export_volume", "destination", "date", "source"],
+          "target_value": "EIA/DOE数据",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T06-003",
+          "category": "供给分析",
+          "description": "采集新增项目动态",
+          "required_fields": ["project_name", "status", "capacity", "start_date", "source"],
+          "target_value": "项目跟踪",
+          "quality_target": "B级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "EIA天然气周报",
+          "url": "https://www.eia.gov/naturalgas/weekly/",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "DOE LNG出口许可",
+          "url": "https://www.energy.gov/fe/liquefied-natural-gas-export",
+          "priority": 2,
+          "reliability": "A"
+        },
+        {
+          "name": "Cheniere Energy",
+          "url": "https://www.cheniere.com/",
+          "priority": 3,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "A级",
+        "multi_source": false,
+        "freshness": "最新周报"
+      }
+    },
+    {
+      "agent_id": "A07",
+      "name": "衡尺",
+      "role": "驱动因素分析师",
+      "priority": 3,
+      "execution_order": 7,
+      "tasks": [
+        {
+          "task_id": "T07-001",
+          "category": "驱动因素",
+          "description": "需求因子分析",
+          "required_fields": ["factor", "indicator", "trend", "impact", "source"],
+          "target_value": "PMI/GDP/终端需求",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T07-002",
+          "category": "驱动因素",
+          "description": "供给因子分析",
+          "required_fields": ["factor", "indicator", "trend", "impact", "source"],
+          "target_value": "OPEC+/页岩油/闲置产能",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T07-003",
+          "category": "驱动因素",
+          "description": "库存因子分析",
+          "required_fields": ["factor", "indicator", "trend", "impact", "source"],
+          "target_value": "EIA/API库存变化",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T07-004",
+          "category": "驱动因素",
+          "description": "宏观因子分析",
+          "required_fields": ["factor", "indicator", "trend", "impact", "source"],
+          "target_value": "美元指数/美联储政策",
+          "quality_target": "A级"
+        },
+        {
+          "task_id": "T07-005",
+          "category": "驱动因素",
+          "description": "风险因子分析",
+          "required_fields": ["factor", "indicator", "trend", "impact", "source"],
+          "target_value": "VIX/地缘风险/投机持仓",
+          "quality_target": "B级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "OPEC月度报告",
+          "url": "https://www.opec.org/opec_web/en/publications/202.htm",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "IEA石油市场报告",
+          "url": "https://www.iea.org/reports/oil-market-report",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "CFTC COT报告",
+          "url": "https://www.cftc.gov/marketreports/commitmentsoftraders/index.htm",
+          "priority": 2,
+          "reliability": "A"
+        },
+        {
+          "name": "美联储经济数据",
+          "url": "https://www.federalreserve.gov/data.htm",
+          "priority": 2,
+          "reliability": "A"
+        }
+      ],
+      "dependencies": ["A01", "A05"],
+      "estimated_time": "20分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": true,
+        "freshness": "最新报告"
+      }
+    },
+    {
+      "agent_id": "A08",
+      "name": "金算",
+      "role": "产业链利润分析师",
+      "priority": 3,
+      "execution_order": 8,
+      "tasks": [
+        {
+          "task_id": "T08-001",
+          "category": "产业链利润",
+          "description": "计算LNG进口利润",
+          "required_fields": ["import_cost", "domestic_price", "profit", "margin", "calculation_method"],
+          "target_value": "理论进口利润",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T08-002",
+          "category": "产业链利润",
+          "description": "计算终端销售利润",
+          "required_fields": ["purchase_price", "selling_price", "profit", "margin", "calculation_method"],
+          "target_value": "终端利润估算",
+          "quality_target": "C级"
+        },
+        {
+          "task_id": "T08-003",
+          "category": "价差分析",
+          "description": "计算原油-LNG比价",
+          "required_fields": ["oil_price", "lng_price", "ratio", "interpretation"],
+          "target_value": "比价关系",
+          "quality_target": "B级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "卓创资讯",
+          "url": "https://www.sci99.com/",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "金联创",
+          "url": "https://www.315i.com/",
+          "priority": 1,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": ["A01", "A02", "A03"],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": false,
+        "freshness": "基于当日价格计算"
+      }
+    },
+    {
+      "agent_id": "A09",
+      "name": "盾甲",
+      "role": "投资评级分析师",
+      "priority": 3,
+      "execution_order": 9,
+      "tasks": [
+        {
+          "task_id": "T09-001",
+          "category": "投资评级",
+          "description": "采集机构观点",
+          "required_fields": ["institution", "rating", "target_price", "date", "source"],
+          "target_value": "投行/券商评级",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T09-002",
+          "category": "投资评级",
+          "description": "采集评级变化",
+          "required_fields": ["institution", "previous_rating", "current_rating", "change_reason", "date"],
+          "target_value": "评级调整",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T09-003",
+          "category": "投资评级",
+          "description": "采集市场一致预期",
+          "required_fields": ["indicator", "consensus", "range", "date", "source"],
+          "target_value": "价格/供需预期",
+          "quality_target": "C级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "高盛大宗商品",
+          "url": "https://www.goldmansachs.com/insights/commodities",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "摩根士丹利",
+          "url": "https://www.morganstanley.com/im/publication/insights/investment-insights/",
+          "priority": 1,
+          "reliability": "B"
+        },
+        {
+          "name": "Bloomberg分析师预期",
+          "url": "https://www.bloomberg.com/professional/product/bloomberg-terminal/",
+          "priority": 2,
+          "reliability": "B"
+        }
+      ],
+      "dependencies": [],
+      "estimated_time": "15分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": true,
+        "freshness": "最新研报"
+      }
+    },
+    {
+      "agent_id": "A10",
+      "name": "镜史",
+      "role": "历史对比与季节性分析师",
+      "priority": 4,
+      "execution_order": 10,
+      "tasks": [
+        {
+          "task_id": "T10-001",
+          "category": "历史对比",
+          "description": "采集历史同期价格",
+          "required_fields": ["period", "historical_price", "yoy_change", "source"],
+          "target_value": "去年同期对比",
+          "quality_target": "B级"
+        },
+        {
+          "task_id": "T10-002",
+          "category": "季节性分析",
+          "description": "分析季节性特征",
+          "required_fields": ["season", "typical_pattern", "current_vs_typical", "outlook"],
+          "target_value": "季节性研判",
+          "quality_target": "C级"
+        }
+      ],
+      "data_sources": [
+        {
+          "name": "EIA历史数据",
+          "url": "https://www.eia.gov/totalenergy/data/monthly/",
+          "priority": 1,
+          "reliability": "A"
+        },
+        {
+          "name": "IEA统计",
+          "url": "https://www.iea.org/data-and-statistics",
+          "priority": 1,
+          "reliability": "A"
+        }
+      ],
+      "dependencies": ["A01", "A02"],
+      "estimated_time": "10分钟",
+      "output_format": "JSON",
+      "quality_requirements": {
+        "min_confidence": "B级",
+        "multi_source": false,
+        "freshness": "历史数据"
+      }
+    }
+  ],
+  "execution_flow": {
+    "phase_1_parallel": {
+      "description": "第一批次：基础价格数据（并行采集）",
+      "agents": ["A01", "A02", "A03", "A04"],
+      "estimated_time": "20分钟",
+      "dependencies": []
+    },
+    "phase_2_parallel": {
+      "description": "第二批次：库存与供给数据（并行采集）",
+      "agents": ["A05", "A06"],
+      "estimated_time": "15分钟",
+      "dependencies": []
+    },
+    "phase_3_parallel": {
+      "description": "第三批次：分析与评级（依赖前两批数据）",
+      "agents": ["A07", "A08", "A09", "A10"],
+      "estimated_time": "20分钟",
+      "dependencies": ["phase_1_parallel", "phase_2_parallel"]
+    }
+  },
+  "quality_standards": {
+    "data_rating": {
+      "A级": {
+        "description": "官方统计，经审计",
+        "examples": ["EIA", "IEA", "海关总署"],
+        "min_score": 90,
+        "usage": "直接使用，高可信度"
+      },
+      "B级": {
+        "description": "官方统计或权威行业数据",
+        "examples": ["Platts", "卓创资讯", "金联创"],
+        "min_score": 75,
+        "usage": "使用，标注来源"
+      },
+      "C级": {
+        "description": "行业调查/模型估算",
+        "examples": ["第三方估算", "模型推算"],
+        "min_score": 60,
+        "usage": "使用，标注局限性"
+      },
+      "D级": {
+        "description": "单一来源，未验证",
+        "examples": ["单一媒体报道", "推测数据"],
+        "min_score": 0,
+        "usage": "谨慎使用或标注缺失"
+      }
+    },
+    "scoring_criteria": {
+      "数据来源": {"weight": 0.25, "A级": 25, "B级": 20, "C级": 15, "D级": 10},
+      "时效性": {"weight": 0.20, "当日": 20, "3日内": 15, "周内": 10, "过时": 5},
+      "多源验证": {"weight": 0.25, "≥3源": 25, "2源": 20, "1源": 10, "无验证": 5},
+      "数据完整性": {"weight": 0.20, "完整": 20, "基本完整": 15, "部分缺失": 10, "严重缺失": 5},
+      "可追溯性": {"weight": 0.10, "URL+时间戳": 10, "有来源": 5, "无来源": 0}
+    },
+    "targets": {
+      "A级数据占比": "≥30%",
+      "B级数据占比": "≥50%",
+      "数据完整度": "≥95%",
+      "多源验证率": "≥60%",
+      "审核通过率": "≥85%",
+      "时效性达标": "≥80%"
+    }
+  },
+  "special_requirements": {
+    "浙江专区": {
+      "description": "重点关注浙江地区接收站价格",
+      "terminals": ["宁波", "舟山", "上海"],
+      "mandatory": true,
+      "highlight_in_report": true
+    },
+    "must_collect": [
+      "Brent现货价格",
+      "WTI现货价格",
+      "JKM现货价格",
+      "TTF现货价格",
+      "Henry Hub现货价格",
+      "华北液厂出厂价",
+      "华东液厂出厂价",
+      "华南液厂出厂价",
+      "宁波接收站挂牌价",
+      "舟山接收站挂牌价",
+      "上海接收站挂牌价",
+      "欧洲天然气库存",
+      "美国天然气库存"
+    ]
+  },
+  "output_specifications": {
+    "individual_format": {
+      "agent_output": "agent_{agent_id}_{date}.json",
+      "schema": {
+        "agent_id": "string",
+        "agent_name": "string",
+        "timestamp": "ISO8601",
+        "data_quality_rating": "A/B/C/D",
+        "data_quality_score": "number(0-100)",
+        "tasks": [
+          {
+            "task_id": "string",
+            "status": "completed/partial/failed",
+            "data": "object",
+            "sources": ["array"],
+            "issues": ["array"]
+          }
+        ],
+        "validation_notes": "string"
+      }
+    },
+    "consolidated_format": {
+      "file_name": "market_data_v5_2026-04-10.json",
+      "schema": "详见SKILL.md"
+    }
+  },
+  "risk_notes": [
+    "周末/节假日数据源可能延迟更新",
+    "国内LNG价格多源差异可能>5%，需标注",
+    "中国库存数据为估算值，需明确方法论",
+    "投资评级存在滞后性，注意发布时间"
+  ],
+  "planner_notes": [
+    "本计划基于v5.0-BASE架构，采用Planner-Generator-Evaluator模式",
+    "10位助理分3批次并行执行，预计总耗时55分钟",
+    "浙江专区为重点关注区域，必须完整采集",
+    "所有数据必须标注来源URL和时间戳",
+    "采集完成后由Evaluator进行质量审核",
+    "数据评级严格遵循四级标准，禁止虚高评级"
+  ]
+}

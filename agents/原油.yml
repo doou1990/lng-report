@@ -1,0 +1,185 @@
+# 原油助理 - 第2位专业助理
+# 卦象: 乾☰ - 原油价格分析
+# 版本: v5.1
+# 更新: 2026-04-11 - 统一搜索工具白名单
+
+name: "原油"
+code: "yuanyou"
+hexagram: "乾☰"
+responsibility: "Brent/WTI价格+价差分析"
+capability_score: 0.95
+
+# ============================================
+# 搜索工具白名单（v5.1统一 - 6个工具）
+# ============================================
+search_tools:
+  # 基础工具（3个）
+  core:
+    - name: "搜狗微信搜索"
+      tool: "web_fetch"
+      priority: 1
+      description: "公众号文章搜索"
+      
+    - name: "百度搜索"
+      tool: "web_fetch"
+      priority: 2
+      description: "网页端数据补充"
+      
+    - name: "Exa搜索"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 3
+      description: "国际原油价格交叉验证"
+      
+  # 已批准技能（3个）
+  approved_skills:
+    - name: "cn-web-search"
+      priority: 4
+      description: "中文多引擎聚合"
+      
+    - name: "web-search-free"
+      priority: 5
+      description: "Exa免费AI搜索"
+      
+    - name: "tavily-search"
+      priority: 6
+      description: "高质量AI搜索"
+
+# ============================================
+# 数据源配置
+# ============================================
+data_sources:
+  primary:
+    - name: "EIA"
+      type: "api"
+      url: "https://api.eia.gov/v2/"
+      priority: 1
+      data_types:
+        - brent_price
+        - wti_price
+        - weekly_report
+        
+    - name: "ICE"
+      type: "web_fetch"
+      url: "https://www.theice.com"
+      priority: 2
+      data_types:
+        - brent_futures
+        - futures_curve
+        
+    - name: "CME"
+      type: "web_fetch"
+      url: "https://www.cmegroup.com"
+      priority: 3
+      data_types:
+        - wti_futures
+        - options_data
+        
+  fallback:
+    - name: "Oil Price API"
+      type: "web_search"
+      priority: 4
+      
+    - name: "Bloomberg"
+      type: "web_search"
+      priority: 5
+      
+    - name: "Reuters"
+      type: "web_search"
+      priority: 6
+
+# ============================================
+# 采集任务配置
+# ============================================
+collection_tasks:
+  spot_prices:
+    description: "原油现货价格"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - Brent现货价格（美元/桶）
+      - WTI现货价格（美元/桶）
+      - Brent-WTI价差
+      - 数据来源
+      
+  futures_curve:
+    description: "原油期货期限结构"
+    frequency: "daily"
+    timeout: 60
+    required_fields:
+      - M1期货价格
+      - M3期货价格
+      - M6期货价格
+      - M12期货价格
+      - 期限结构形态（Backwardation/Contango）
+      
+  price_drivers:
+    description: "价格驱动因素"
+    frequency: "daily"
+    timeout: 30
+    required_fields:
+      - OPEC+产量政策
+      - 美国页岩油产量
+      - 地缘政治风险
+      - 美元指数
+
+# ============================================
+# 验证规则
+# ============================================
+validation_rules:
+  brent_price:
+    min: 20
+    max: 150
+    unit: "美元/桶"
+    
+  wti_price:
+    min: 20
+    max: 150
+    unit: "美元/桶"
+    
+  brent_wti_spread:
+    min: -10
+    max: 10
+    unit: "美元/桶"
+    normal_range: "0-5"
+
+# ============================================
+# 置信度评分标准
+# ============================================
+confidence_scoring:
+  A:  # 90-100分
+    criteria:
+      - "EIA/ICE官方数据"
+      - "数据完整无缺失"
+      - "当日更新"
+      
+  B:  # 75-89分
+    criteria:
+      - "CME/权威媒体数据"
+      - "可能有轻微延迟"
+      
+  C:  # 60-74分
+    criteria:
+      - "单一来源"
+      - "1-2天延迟"
+      
+  D:  # <60分
+    criteria:
+      - "估算数据"
+      - "来源不明确"
+
+# ============================================
+# 输出格式
+# ============================================
+output:
+  report_section: "原油价格分析"
+  required_metrics:
+    - Brent现货价格
+    - WTI现货价格
+    - Brent-WTI价差
+    - 期限结构分析
+    - 驱动因素摘要
+    - 数据来源清单
+    - 置信度评级

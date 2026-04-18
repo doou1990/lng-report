@@ -1,0 +1,255 @@
+# v6.0 数据源配置 - 分层采集策略
+# 优先级: Tier 0 (API) > Tier 1 (网页) > Tier 2 (搜索)
+
+data_sources:
+  # ==========================================
+  # Tier 0: API直连 (最高优先级，A级数据)
+  # ==========================================
+  tier_0_api:
+    enabled: true
+    timeout: 10
+    retry: 2
+    
+    oilprice_api:
+      name: "OilPriceAPI"
+      base_url: "https://api.oilpriceapi.com/v1"
+      endpoints:
+        brent:
+          code: "BRENT_USD"
+          name: "Brent原油"
+          unit: "美元/桶"
+          category: "国际原油"
+        wti:
+          code: "WTI_USD"
+          name: "WTI原油"
+          unit: "美元/桶"
+          category: "国际原油"
+        jkm:
+          code: "JKM_LNG_USD"
+          name: "JKM LNG"
+          unit: "美元/MMBtu"
+          category: "国际LNG"
+        ttf:
+          code: "TTF_GAS_USD"
+          name: "TTF天然气"
+          unit: "美元/MMBtu"
+          category: "国际LNG"
+        henry_hub:
+          code: "HH_GAS_USD"
+          name: "Henry Hub"
+          unit: "美元/MMBtu"
+          category: "国际LNG"
+      confidence: "A"
+      reliability: 0.999
+      
+    eia_api:
+      name: "EIA API"
+      base_url: "https://api.eia.gov/v2"
+      endpoints:
+        crude_inventory:
+          series_id: "PET.WCRSTUS1.W"
+          name: "美国原油库存"
+          unit: "千桶"
+        ng_inventory:
+          series_id: "NG.NW2_EPG0_SWO_R48_BCF.W"
+          name: "美国天然气库存"
+          unit: "十亿立方英尺"
+        lng_exports:
+          series_id: "NG.NW2_EPG0_EEX_NUS-NUI_BCF.M"
+          name: "美国LNG出口"
+          unit: "十亿立方英尺/日"
+      confidence: "A"
+      reliability: 0.999
+      
+  # ==========================================
+  # Tier 1: 官方网页 (高优先级，B级数据)
+  # ==========================================
+  tier_1_web:
+    enabled: true
+    timeout: 30
+    retry: 1
+    
+    cme_group:
+      name: "CME集团"
+      url: "https://www.cmegroup.com/markets/energy.html"
+      data_types: ["期货价格", "期权数据"]
+      confidence: "A"
+      
+    ice:
+      name: "ICE交易所"
+      url: "https://www.theice.com/products/219/Brent-Crude-Futures"
+      data_types: ["Brent期货", "TTF期货"]
+      confidence: "A"
+      
+    shanghai_exchange:
+      name: "上海油气交易中心"
+      url: "http://www.shpgx.com/"
+      data_types: ["国内LNG价格", "管道气价格"]
+      confidence: "B"
+      
+    mysteel:
+      name: "Mysteel"
+      url: "https://www.mysteel.net/h/energy/"
+      data_types: ["国内LNG价格", "液厂价格", "接收站价格"]
+      confidence: "B"
+      
+  # ==========================================
+  # Tier 2: 搜索验证 (中优先级，C级数据)
+  # ==========================================
+  tier_2_search:
+    enabled: true
+    timeout: 60
+    retry: 1
+    
+    exa_search:
+      name: "Exa搜索"
+      tool: "exa.web_search_exa"
+      priority: 1
+      confidence: "C"
+      
+    tavily_search:
+      name: "Tavily搜索"
+      tool: "tavily_search"
+      priority: 2
+      confidence: "C"
+      
+    web_fetch:
+      name: "网页抓取"
+      tool: "web_fetch"
+      priority: 3
+      confidence: "C"
+
+# ==========================================
+# 必采数据清单
+# ==========================================
+required_data:
+  # 国际原油
+  - field: "brent_spot"
+    name: "Brent现货价格"
+    unit: "美元/桶"
+    tiers: ["oilprice_api", "exa_search", "web_fetch"]
+    
+  - field: "wti_spot"
+    name: "WTI现货价格"
+    unit: "美元/桶"
+    tiers: ["oilprice_api", "exa_search", "web_fetch"]
+    
+  - field: "brent_wti_spread"
+    name: "Brent-WTI价差"
+    unit: "美元/桶"
+    derived: true
+    
+  # 国际LNG
+  - field: "jkm_price"
+    name: "JKM LNG价格"
+    unit: "美元/MMBtu"
+    tiers: ["oilprice_api", "exa_search", "web_fetch"]
+    
+  - field: "ttf_price"
+    name: "TTF天然气价格"
+    unit: "美元/MMBtu"
+    tiers: ["oilprice_api", "exa_search", "web_fetch"]
+    
+  - field: "henry_hub_price"
+    name: "Henry Hub价格"
+    unit: "美元/MMBtu"
+    tiers: ["oilprice_api", "exa_search", "web_fetch"]
+    
+  # 国内LNG
+  - field: "china_lng_factory"
+    name: "国内LNG工厂价"
+    unit: "元/吨"
+    tiers: ["mysteel", "web_fetch", "exa_search"]
+    
+  - field: "china_receiving_station"
+    name: "国内接收站挂牌价"
+    unit: "元/吨"
+    tiers: ["mysteel", "web_fetch", "exa_search"]
+    
+  # 浙江专区
+  - field: "zhejiang_ningbo"
+    name: "浙江宁波接收站"
+    unit: "元/吨"
+    tiers: ["mysteel", "web_fetch", "exa_search"]
+    
+  - field: "zhejiang_zhoushan"
+    name: "浙江舟山接收站"
+    unit: "元/吨"
+    tiers: ["mysteel", "web_fetch", "exa_search"]
+    
+  - field: "shanghai_wuhaogou"
+    name: "上海五号沟"
+    unit: "元/吨"
+    tiers: ["mysteel", "web_fetch", "exa_search"]
+    
+  # 库存数据
+  - field: "us_crude_inventory"
+    name: "美国原油库存"
+    unit: "千桶"
+    tiers: ["eia_api", "web_fetch"]
+    
+  - field: "us_ng_inventory"
+    name: "美国天然气库存"
+    unit: "十亿立方英尺"
+    tiers: ["eia_api", "web_fetch"]
+
+# ==========================================
+# 降级策略
+# ==========================================
+fallback_strategy:
+  enabled: true
+  max_attempts: 3
+  
+  rules:
+    - condition: "tier_0 fails"
+      action: "try tier_1"
+      delay: 1
+      
+    - condition: "tier_1 fails"
+      action: "try tier_2"
+      delay: 2
+      
+    - condition: "all tiers fail"
+      action: "mark_missing"
+      confidence: "D"
+      note: "数据暂时缺失，将在下次采集时重试"
+
+# ==========================================
+# 采集域配置 (6个核心助理)
+# ==========================================
+collection_domains:
+  crude_oil:
+    name: "原油域"
+    fields: ["brent_spot", "wti_spot", "brent_wti_spread", "brent_futures", "wti_futures"]
+    primary_source: "oilprice_api"
+    backup_sources: ["exa_search", "web_fetch"]
+    
+  international_lng:
+    name: "国际LNG域"
+    fields: ["jkm_price", "ttf_price", "henry_hub_price", "jkm_ttf_spread"]
+    primary_source: "oilprice_api"
+    backup_sources: ["exa_search", "web_fetch"]
+    
+  domestic_lng:
+    name: "国内LNG域"
+    fields: ["china_lng_factory", "china_receiving_station", "market_average", "operating_rate"]
+    primary_source: "mysteel"
+    backup_sources: ["web_fetch", "exa_search"]
+    
+  zhejiang_region:
+    name: "浙江专区"
+    fields: ["zhejiang_ningbo", "zhejiang_zhoushan", "shanghai_wuhaogou"]
+    primary_source: "mysteel"
+    backup_sources: ["web_fetch", "exa_search"]
+    
+  inventory:
+    name: "库存域"
+    fields: ["us_crude_inventory", "us_ng_inventory", "eu_ng_inventory"]
+    primary_source: "eia_api"
+    backup_sources: ["web_fetch"]
+    
+  trade_flow:
+    name: "贸易流域"
+    fields: ["china_imports", "us_exports", "global_cargo"]
+    primary_source: "exa_search"
+    backup_sources: ["web_fetch"]

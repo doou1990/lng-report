@@ -1,0 +1,234 @@
+# 子代理配置 - v6.0 稳定版
+# 6个数据域采集配置
+
+agents:
+  # ==========================================
+  # 数据域1: 原油域 (Crude Oil)
+  # ==========================================
+  crude_oil_domain:
+    name: "原油域采集助理"
+    description: "采集国际原油价格数据"
+    fields:
+      - brent_spot
+      - wti_spot
+      - brent_futures_m1
+      - brent_futures_m3
+      - brent_futures_m6
+      - wti_futures_m1
+      - wti_futures_m3
+      - wti_futures_m6
+      - brent_wti_spread
+    
+    collection_strategy:
+      primary: "oilprice_api"
+      backup: ["exa_search", "web_fetch"]
+      timeout: 300
+    
+    output_format: |
+      {
+        "domain": "crude_oil",
+        "date": "YYYY-MM-DD",
+        "data": {
+          "brent_spot": {"value": float, "unit": "美元/桶", "source": str, "confidence": "A/B/C/D"},
+          "wti_spot": {"value": float, "unit": "美元/桶", "source": str, "confidence": "A/B/C/D"},
+          ...
+        },
+        "collected_at": "ISO timestamp",
+        "collector": "crude_oil_domain"
+      }
+
+  # ==========================================
+  # 数据域2: 国际LNG域 (International LNG)
+  # ==========================================
+  international_lng_domain:
+    name: "国际LNG域采集助理"
+    description: "采集国际LNG价格数据"
+    fields:
+      - jkm_price
+      - ttf_price
+      - henry_hub_price
+      - jkm_ttf_spread
+      - jkm_futures_m1
+      - ttf_futures_m1
+    
+    collection_strategy:
+      primary: "oilprice_api"
+      backup: ["exa_search", "web_fetch"]
+      timeout: 300
+
+  # ==========================================
+  # 数据域3: 国内LNG域 (Domestic LNG)
+  # ==========================================
+  domestic_lng_domain:
+    name: "国内LNG域采集助理"
+    description: "采集中国LNG市场价格数据"
+    fields:
+      - china_lng_factory_avg
+      - china_receiving_station_avg
+      - market_average_price
+      - operating_rate
+      - zhejiang_ningbo
+      - zhejiang_zhoushan
+      - shanghai_wuhaogou
+    
+    collection_strategy:
+      primary: "mysteel_web"
+      backup: ["longzhong_web", "exa_search"]
+      timeout: 300
+    
+    special_requirements:
+      - "必须采集浙江专区数据(宁波、舟山)"
+      - "必须采集上海五号沟价格"
+      - "优先使用Mysteel或隆众资讯"
+
+  # ==========================================
+  # 数据域4: 库存域 (Inventory)
+  # ==========================================
+  inventory_domain:
+    name: "库存域采集助理"
+    description: "采集全球能源库存数据"
+    fields:
+      - us_crude_inventory
+      - us_ng_inventory
+      - us_lng_exports
+      - eu_ng_inventory
+      - china_lng_inventory
+    
+    collection_strategy:
+      primary: "eia_api"
+      backup: ["gie_agsi", "web_fetch"]
+      timeout: 300
+
+  # ==========================================
+  # 数据域5: 贸易流域 (Trade Flow)
+  # ==========================================
+  trade_flow_domain:
+    name: "贸易流域采集助理"
+    description: "采集LNG贸易流数据"
+    fields:
+      - china_lng_imports_monthly
+      - us_lng_exports_daily
+      - global_lng_cargo
+      - shipping_rates
+    
+    collection_strategy:
+      primary: "exa_search"
+      backup: ["web_fetch"]
+      timeout: 300
+
+  # ==========================================
+  # 数据域6: 分析域 (Analysis)
+  # ==========================================
+  analysis_domain:
+    name: "分析域采集助理"
+    description: "采集市场分析数据"
+    fields:
+      - opec_production
+      - us_shale_production
+      - lng_demand_forecast
+      - price_drivers
+      - institutional_ratings
+    
+    collection_strategy:
+      primary: "exa_search"
+      backup: ["web_fetch"]
+      timeout: 300
+
+# ==========================================
+# 中孚审核配置
+# ==========================================
+evaluator:
+  name: "中孚数据审核助理"
+  description: "审核数据质量，执行四级评级"
+  
+  required_checks:
+    - completeness_check      # 完整性检查
+    - quality_assessment      # 质量评估
+    - anomaly_detection       # 异常检测
+    - cross_validation        # 交叉验证
+    - scoring_calculation     # 评分计算
+  
+  output_format: |
+    {
+      "evaluation_report": {
+        "timestamp": "ISO timestamp",
+        "total_score": float,
+        "rating": "A/B/C/D",
+        "completeness": {
+          "coverage": float,
+          "missing_fields": [str]
+        },
+        "quality": {
+          "data_source_score": float,
+          "timeliness_score": float,
+          "multi_source_score": float,
+          "traceability_score": float
+        },
+        "anomalies": [
+          {"type": str, "severity": "high/medium/low", "message": str}
+        ],
+        "recommendations": [str]
+      }
+    }
+
+# ==========================================
+# 执行模式配置
+# ==========================================
+execution_modes:
+  # 模式A: 主会话直接采集 (推荐用于API数据)
+  mode_a_direct:
+    description: "主会话同步采集，无超时限制"
+    use_for: ["tier_0_api"]
+    timeout: null
+    
+  # 模式B: 子代理并行采集 (用于网页数据)
+  mode_b_subagent:
+    description: "子代理异步采集，批量执行"
+    use_for: ["tier_1_web", "tier_2_search"]
+    timeout: 300
+    batch_size: 3
+    
+  # 模式C: 混合模式 (默认)
+  mode_c_hybrid:
+    description: "API主会话 + 网页子代理 + 搜索验证"
+    use_for: ["full_collection"]
+    steps:
+      - step: 1
+        name: "api_collection"
+        mode: "direct"
+        timeout: 30
+      - step: 2
+        name: "web_collection"
+        mode: "subagent"
+        timeout: 300
+        batch_size: 3
+      - step: 3
+        name: "search_validation"
+        mode: "subagent"
+        timeout: 180
+        batch_size: 3
+      - step: 4
+        name: "evaluation"
+        mode: "direct"
+        timeout: 60
+
+# ==========================================
+# 超时配置
+# ==========================================
+timeouts:
+  api_call: 10           # API调用超时
+  web_fetch: 30          # 网页抓取超时
+  search_query: 60       # 搜索查询超时
+  subagent_task: 300     # 子代理任务超时
+  evaluation: 60         # 审核超时
+  total_collection: 600  # 总采集超时(10分钟)
+
+# ==========================================
+# 重试配置
+# ==========================================
+retries:
+  api_call: 2            # API调用重试次数
+  web_fetch: 1           # 网页抓取重试次数
+  search_query: 1        # 搜索查询重试次数
+  subagent_task: 1       # 子代理任务重试次数
+  backoff_strategy: "exponential"  # 指数退避

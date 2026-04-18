@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-04-18T14:55:43.029584",
+  "ready_for_switch": false,
+  "criteria_met": "1/4",
+  "estimated_switch_date": "2026-05-02",
+  "details": {
+    "data_completeness": {
+      "value": "85%",
+      "threshold": "95%",
+      "status": "🟡 基于历史数据库估算85%（首次运行）"
+    },
+    "historical_coverage": {
+      "value": "6年",
+      "threshold": "3年",
+      "status": "✅ 已达标（6年 > 3年要求）"
+    },
+    "stability": {
+      "value": "0天",
+      "threshold": "14天",
+      "status": "⏳ 积累中（0/14天）"
+    },
+    "report_count": {
+      "value": "0份",
+      "threshold": "10份",
+      "status": "⏳ 积累中（0/10份）"
+    }
+  },
+  "recommendation": "继续运行方案A（轻量版）",
+  "acceleration_note": "历史数据库已就绪，3年覆盖已达成！"
+}

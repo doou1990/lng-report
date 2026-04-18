@@ -1,0 +1,117 @@
+{
+  "version": "v5.0",
+  "report_date": "2026-04-10",
+  "generated_at": "2026-04-10T21:02:26.546003",
+  "phase": "PLANNER",
+  "data_requirements": {
+    "P0_critical": [
+      {
+        "item": "Brent现货价格",
+        "sources": [
+          "EIA",
+          "ICE",
+          "Bloomberg"
+        ],
+        "assistant": "原油"
+      },
+      {
+        "item": "WTI现货价格",
+        "sources": [
+          "EIA",
+          "NYMEX"
+        ],
+        "assistant": "原油"
+      },
+      {
+        "item": "JKM日韩标杆",
+        "sources": [
+          "Platts",
+          "ICIS",
+          "CME"
+        ],
+        "assistant": "海明"
+      },
+      {
+        "item": "TTF欧洲气价",
+        "sources": [
+          "ICE",
+          "Platts"
+        ],
+        "assistant": "海明"
+      },
+      {
+        "item": "Henry Hub美国气价",
+        "sources": [
+          "NYMEX",
+          "EIA"
+        ],
+        "assistant": "海明"
+      },
+      {
+        "item": "国内LNG液厂价",
+        "sources": [
+          "Mysteel",
+          "隆众资讯",
+          "LNG物联网"
+        ],
+        "assistant": "润仓"
+      },
+      {
+        "item": "浙江接收站价格",
+        "sources": [
+          "Mysteel",
+          "LNG168"
+        ],
+        "assistant": "润仓"
+      }
+    ],
+    "P1_important": [
+      {
+        "item": "Brent期货M1/M3",
+        "sources": [
+          "ICE",
+          "Barchart"
+        ],
+        "assistant": "原油"
+      },
+      {
+        "item": "欧洲天然气库存",
+        "sources": [
+          "GIE AGSI",
+          "Eurostat"
+        ],
+        "assistant": "欧风"
+      },
+      {
+        "item": "美国LNG库存",
+        "sources": [
+          "EIA API"
+        ],
+        "assistant": "洋基"
+      }
+    ],
+    "P2_supplementary": [
+      {
+        "item": "中国LNG进口量",
+        "sources": [
+          "海关总署",
+          "Mysteel"
+        ],
+        "assistant": "陆远"
+      },
+      {
+        "item": "OPEC产量政策",
+        "sources": [
+          "OPEC月报"
+        ],
+        "assistant": "衡尺"
+      }
+    ]
+  },
+  "quality_targets": {
+    "A_grade_ratio": "≥30%",
+    "B_grade_ratio": "≥50%",
+    "completeness": "≥95%",
+    "multi_source_rate": "≥60%"
+  }
+}

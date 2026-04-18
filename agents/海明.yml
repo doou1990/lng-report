@@ -1,0 +1,189 @@
+# 海明助理 - 第3位专业助理
+# 卦象: 坤☷ - 国际LNG价格
+# 版本: v5.1
+# 更新: 2026-04-11 - 统一搜索工具白名单
+
+name: "海明"
+code: "haiming"
+hexagram: "坤☷"
+responsibility: "JKM/TTF/Henry Hub+区域价差"
+capability_score: 0.95
+
+# ============================================
+# 搜索工具白名单（v5.1统一 - 6个工具）
+# ============================================
+search_tools:
+  # 基础工具（3个）
+  core:
+    - name: "搜狗微信搜索"
+      tool: "web_fetch"
+      priority: 1
+      description: "公众号文章搜索"
+      
+    - name: "百度搜索"
+      tool: "web_fetch"
+      priority: 2
+      description: "网页端数据补充"
+      
+    - name: "Exa搜索"
+      tool: "mcporter"
+      server: "exa"
+      tool_name: "web_search_exa"
+      priority: 3
+      description: "国际LNG价格交叉验证"
+      
+  # 已批准技能（3个）
+  approved_skills:
+    - name: "cn-web-search"
+      priority: 4
+      description: "中文多引擎聚合"
+      
+    - name: "web-search-free"
+      priority: 5
+      description: "Exa免费AI搜索"
+      
+    - name: "tavily-search"
+      priority: 6
+      description: "高质量AI搜索"
+
+# ============================================
+# 数据源配置
+# ============================================
+data_sources:
+  primary:
+    - name: "Platts"
+      type: "web_search"
+      priority: 1
+      data_types:
+        - jkm_price
+        - ttf_price
+        - henry_hub_price
+        
+    - name: "ICIS"
+      type: "web_search"
+      priority: 2
+      data_types:
+        - lng_assessments
+        - market_analysis
+        
+    - name: "CME"
+      type: "web_fetch"
+      url: "https://www.cmegroup.com"
+      priority: 3
+      data_types:
+        - lng_futures
+        - options_data
+        
+    - name: "ICE"
+      type: "web_fetch"
+      url: "https://www.theice.com"
+      priority: 4
+      data_types:
+        - ttf_futures
+        - brent_futures
+        
+  fallback:
+    - name: "LNGPriceIndex"
+      type: "web_search"
+      priority: 5
+      
+    - name: "OilPriceAPI"
+      type: "web_search"
+      priority: 6
+      
+    - name: "TradingNews"
+      type: "web_search"
+      priority: 7
+
+# ============================================
+# 采集任务配置
+# ============================================
+collection_tasks:
+  spot_prices:
+    description: "国际LNG现货价格"
+    frequency: "daily"
+    timeout: 60
+    required: true
+    required_fields:
+      - JKM价格（$/MMBtu）
+      - TTF价格（€/MWh或$/MMBtu）
+      - Henry Hub价格（$/MMBtu）
+      - 数据来源
+      
+  futures_prices:
+    description: "LNG期货价格"
+    frequency: "daily"
+    timeout: 60
+    required_fields:
+      - JKM M1/M3/M6期货
+      - TTF M1/M3/M6期货
+      - Henry Hub M1/M3/M6期货
+      
+  price_spreads:
+    description: "跨区价差分析"
+    frequency: "daily"
+    timeout: 30
+    required_fields:
+      - JKM-TTF价差
+      - JKM-Henry Hub价差
+      - TTF-Henry Hub价差
+      - 价差解读
+
+# ============================================
+# 验证规则
+# ============================================
+validation_rules:
+  jkm_price:
+    min: 5
+    max: 50
+    unit: "$/MMBtu"
+    
+  ttf_price:
+    min: 5
+    max: 100
+    unit: "€/MWh"
+    
+  henry_hub_price:
+    min: 1
+    max: 15
+    unit: "$/MMBtu"
+    normal_range: "2-6"
+
+# ============================================
+# 置信度评分标准
+# ============================================
+confidence_scoring:
+  A:  # 90-100分
+    criteria:
+      - "Platts/ICIS官方评估"
+      - "数据完整无缺失"
+      - "当日更新"
+      
+  B:  # 75-89分
+    criteria:
+      - "CME/ICE期货数据"
+      - "可能有轻微延迟"
+      
+  C:  # 60-74分
+    criteria:
+      - "单一来源"
+      - "1-2天延迟"
+      
+  D:  # <60分
+    criteria:
+      - "估算数据"
+      - "来源不明确"
+
+# ============================================
+# 输出格式
+# ============================================
+output:
+  report_section: "国际LNG价格分析"
+  required_metrics:
+    - JKM现货价格
+    - TTF现货价格
+    - Henry Hub现货价格
+    - 期货价格（M1/M3/M6）
+    - 跨区价差分析
+    - 数据来源清单
+    - 置信度评级
